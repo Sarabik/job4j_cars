@@ -12,11 +12,11 @@ public class UserUsage {
                 .configure().build();
         try (SessionFactory sf = new MetadataSources(registry)
                 .buildMetadata().buildSessionFactory()) {
-            UserRepository userRepository = new UserRepository(new CrudRepository(sf));
+            HibernateUserRepository userRepository = new HibernateUserRepository(new CrudRepository(sf));
             User user = new User();
             user.setLogin("admin");
             user.setPassword("admin");
-            userRepository.create(user);
+            userRepository.save(user);
             userRepository.findAllOrderById()
                     .forEach(System.out::println);
             userRepository.findByLikeLogin("i")

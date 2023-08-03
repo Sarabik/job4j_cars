@@ -1,58 +1,24 @@
 package ru.job4j.cars.repository;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.User;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-@Repository
-@AllArgsConstructor
-public class UserRepository {
-    private final CrudRepository crudRepository;
+public interface UserRepository {
 
-    public User create(User user) {
-        crudRepository.run(session -> session.persist(user));
-        return user;
-    }
+    void save(User user);
 
-    public void update(User user) {
-        crudRepository.run(session -> session.merge(user));
-    }
+    void update(User user);
 
-    public void delete(int userId) {
-        crudRepository.run(
-                "DELETE User WHERE id = :fId",
-                Map.of("fId", userId)
-        );
-    }
+    void delete(int userId);
 
-    public List<User> findAllOrderById() {
-        return crudRepository.query(
-                "from User order by id asc", User.class
-        );
-    }
+    Collection<User> findAllOrderById();
 
-    public Optional<User> findById(int userId) {
-        return crudRepository.optional(
-                "from User where id = :fId", User.class,
-                Map.of("fId", userId)
-        );
-    }
+    Optional<User> findById(int userId);
 
-    public List<User> findByLikeLogin(String key) {
-        return crudRepository.query(
-                "FROM User WHERE LOWER(login) LIKE LOWER(:fKey)", User.class,
-                Map.of("fKey", "%" + key + "%")
-        );
-    }
+    Collection<User> findByLikeLogin(String key);
 
-    public Optional<User> findByLogin(String login) {
-        return crudRepository.optional(
-                "FROM User WHERE login = :fLogin", User.class,
-                Map.of("fLogin", login)
-        );
-    }
+    Optional<User> findByLogin(String login);
 }

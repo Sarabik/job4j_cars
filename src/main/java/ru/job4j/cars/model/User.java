@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Table(name = "auto_user")
+@Table(name = "auto_users")
 @Data
 public class User {
     @Id

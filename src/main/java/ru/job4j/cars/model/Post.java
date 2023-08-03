@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "auto_post")
+@Table(name = "auto_posts")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
@@ -21,7 +21,7 @@ public class Post {
     private boolean created;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "auto_post_id")
+    @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistories = new ArrayList<>();
 
     @ManyToMany
@@ -31,4 +31,8 @@ public class Post {
             inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     private List<User> participates = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 }
