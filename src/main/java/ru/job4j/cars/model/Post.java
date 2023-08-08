@@ -33,6 +33,10 @@ public class Post {
     private List<User> participates = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
 }

@@ -24,11 +24,6 @@ public class Car {
     @JoinColumn(name = "engine_id")
     private Engine engine;
 
-    @ManyToMany
-    @JoinTable(
-            name = "history_owners",
-            joinColumns = { @JoinColumn(name = "car_id") },
-            inverseJoinColumns = { @JoinColumn(name = "owner_id") }
-    )
-    private Set<Owner> owners = new HashSet<>();
+    @OneToMany(mappedBy = "car")
+    private Set<HistoryOwners> historyOwners = new HashSet<>();
 }
