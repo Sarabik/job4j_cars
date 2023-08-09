@@ -67,5 +67,4 @@ public class HibernatePostRepository implements PostRepository {
                 Map.of("cMake", make)
         );
     }
-
 }
