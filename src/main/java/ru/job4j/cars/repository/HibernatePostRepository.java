@@ -48,6 +48,7 @@ public class HibernatePostRepository implements PostRepository {
         );
     }
 
+    @Override
     public Collection<Post> findPostsForLast24Hours() {
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         return crudRepository.query(
@@ -55,10 +56,12 @@ public class HibernatePostRepository implements PostRepository {
                 Map.of("pDate", date));
     }
 
+    @Override
     public Collection<Post> findPostsWithPhoto() {
         return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.imageFile IS NOT NULL", Post.class);
     }
 
+    @Override
     public Collection<Post> findPostsByMake(String make) {
         return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.car.carModel.make = :cMake", Post.class,
                 Map.of("cMake", make)

@@ -17,4 +17,9 @@ public interface PostRepository {
 
     Optional<Post> findById(int postId);
 
+    Collection<Post> findPostsForLast24Hours();
+
+    Collection<Post> findPostsWithPhoto();
+
+    Collection<Post> findPostsByMake(String make);
 }
