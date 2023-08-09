@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "auto_posts")
+@Table(name = "posts")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
