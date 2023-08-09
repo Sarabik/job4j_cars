@@ -6,16 +6,14 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "engines")
+@Table(name = "car_models")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Engine {
-
+public class CarModel {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
-
 }

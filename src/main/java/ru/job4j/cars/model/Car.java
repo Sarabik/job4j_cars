@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "cars")
@@ -18,12 +16,36 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "car_model_id")
+    private CarModel carModel;
 
     @ManyToOne
-    @JoinColumn(name = "engine_id")
-    private Engine engine;
+    @JoinColumn(name = "body_type_id")
+    private BodyType bodyType;
 
-    @OneToMany(mappedBy = "car")
-    private Set<HistoryOwners> historyOwners = new HashSet<>();
+    @Column(name = "car_year")
+    private int carYear;
+
+    @ManyToOne
+    @JoinColumn(name = "fuel_type_id")
+    private FuelType fuelType;
+
+    @ManyToOne
+    @JoinColumn(name = "engine_size_id")
+    private EngineSize engineSize;
+
+    @ManyToOne
+    @JoinColumn(name = "transmission_id")
+    private Transmission transmission;
+
+    private long mileage;
+
+    @ManyToOne
+    @JoinColumn(name = "car_colour_id")
+    private CarColour carColour;
+
+    private String number;
+
+    private String vin;
 }

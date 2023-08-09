@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,27 +17,28 @@ public class Post {
     @EqualsAndHashCode.Include
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name = "image_file_id")
+    private ImageFile imageFile;
+
     private String description;
 
-    private boolean created;
+    private long price;
+
+    private LocalDateTime created;
+
+    @Column(name = "sold")
+    private boolean isSold;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistories = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "participates",
-            joinColumns = { @JoinColumn(name = "post_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private List<User> participates = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
 }
