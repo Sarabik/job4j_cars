@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -35,15 +36,33 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> findAll() {
         return crudRepository.query(
-                "from Post order by id asc", Post.class
+                "from Post p JOIN FETCH p.priceHistories ORDER BY p.id asc", Post.class
         );
     }
 
     @Override
     public Optional<Post> findById(int postId) {
         return crudRepository.optional(
-                "from Post where id = :pId", Post.class,
+                "FROM Post WHERE id = :pId ORDER BY created ASC", Post.class,
                 Map.of("pId", postId)
         );
     }
+
+    public Collection<Post> findPostsForLast24Hours() {
+        LocalDateTime date = LocalDateTime.now().minusDays(1);
+        return crudRepository.query(
+                "FROM Post p JOIN FETCH p.priceHistories WHERE p.created >= :pDate", Post.class,
+                Map.of("pDate", date));
+    }
+
+    public Collection<Post> findPostsWithPhoto() {
+        return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.imageFile IS NOT NULL", Post.class);
+    }
+
+    public Collection<Post> findPostsByMake(String make) {
+        return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.car.carModel.make = :cMake", Post.class,
+                Map.of("cMake", make)
+        );
+    }
+
 }
