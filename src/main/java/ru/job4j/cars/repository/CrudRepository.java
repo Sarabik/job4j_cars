@@ -87,6 +87,7 @@ public class CrudRepository {
             transaction.commit();
             return rsl;
         } catch (Exception e) {
+            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }

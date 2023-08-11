@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.ImageFile;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class HibernateImageSizeRepository implements ImageFileRepository {
+public class HibernateImageFileRepository implements ImageFileRepository {
 
     private final CrudRepository crudRepository;
 
@@ -29,13 +28,6 @@ public class HibernateImageSizeRepository implements ImageFileRepository {
         crudRepository.run(
                 "DELETE ImageFile WHERE id = :fId",
                 Map.of("fId", id)
-        );
-    }
-
-    @Override
-    public Collection<ImageFile> findAll() {
-        return crudRepository.query(
-                "from ImageFile ORDER BY id ASC", ImageFile.class
         );
     }
 

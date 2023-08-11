@@ -25,4 +25,11 @@ public class HibernateCarRepository implements CarRepository {
                 Map.of("cId", id)
         );
     }
+
+    @Override
+    public void delete(int id) {
+        crudRepository.run("DELETE Car WHERE id = :cId",
+                Map.of("cId", id)
+        );
+    }
 }

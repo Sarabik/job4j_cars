@@ -10,4 +10,5 @@ public interface CarRepository {
 
     Optional<Car> findById(int id);
 
+    void delete(int id);
 }

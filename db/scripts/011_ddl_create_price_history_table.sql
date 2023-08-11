@@ -1,7 +1,6 @@
 CREATE TABLE if NOT EXISTS price_history(
    id SERIAL PRIMARY KEY,
-   before BIGINT NOT NULL DEFAULT 0,
-   after BIGINT NOT NULL,
-   created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-   post_id INT REFERENCES posts(id) NOT NULL
+   price BIGINT NOT NULL,
+   created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+   post_id INT REFERENCES posts(id)
 );

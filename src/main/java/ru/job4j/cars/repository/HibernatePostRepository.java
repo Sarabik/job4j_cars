@@ -36,14 +36,22 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> findAll() {
         return crudRepository.query(
-                "from Post p JOIN FETCH p.priceHistories ORDER BY p.id asc", Post.class
+                "from Post ORDER BY id asc", Post.class
         );
     }
 
     @Override
     public Optional<Post> findById(int postId) {
         return crudRepository.optional(
-                "FROM Post WHERE id = :pId ORDER BY created ASC", Post.class,
+                "FROM Post p WHERE p.id = :pId", Post.class,
+                Map.of("pId", postId)
+        );
+    }
+
+    @Override
+    public Optional<Post> findByIdWithHistory(int postId) {
+        return crudRepository.optional(
+                "FROM Post p JOIN FETCH p.priceHistories WHERE p.id = :pId", Post.class,
                 Map.of("pId", postId)
         );
     }
@@ -52,18 +60,18 @@ public class HibernatePostRepository implements PostRepository {
     public Collection<Post> findPostsForLast24Hours() {
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         return crudRepository.query(
-                "FROM Post p JOIN FETCH p.priceHistories WHERE p.created >= :pDate", Post.class,
+                "FROM Post WHERE created >= :pDate", Post.class,
                 Map.of("pDate", date));
     }
 
     @Override
     public Collection<Post> findPostsWithPhoto() {
-        return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.imageFile IS NOT NULL", Post.class);
+        return crudRepository.query("FROM Post WHERE imageFile IS NOT NULL", Post.class);
     }
 
     @Override
     public Collection<Post> findPostsByMake(String make) {
-        return crudRepository.query("FROM Post p JOIN FETCH p.priceHistories WHERE p.car.carModel.make = :cMake", Post.class,
+        return crudRepository.query("FROM Post p WHERE p.car.carModel.make = :cMake", Post.class,
                 Map.of("cMake", make)
         );
     }
