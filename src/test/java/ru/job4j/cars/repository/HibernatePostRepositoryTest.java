@@ -12,7 +12,6 @@ import ru.job4j.cars.model.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -51,21 +50,9 @@ class HibernatePostRepositoryTest {
         post1.setCar(car);
         post1.setUser(user);
 
-        /* При добавлении заполнении поля истории цен,
-        метод save отрабатывает как надо, то потом метод delete(id)
-        вызывает ошибку:
-        org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение ссылочной целостности*/
-
-        /*
-        PriceHistory priceHistory = new PriceHistory();
-        priceHistory.setPrice(post1.getPrice());
-        priceHistory.setCreated(post1.getCreated());
-        post1.setPriceHistories(List.of(priceHistory));
-        */
         hibernatePostRepository.save(post1);
         int postId1 = post1.getId();
 
-        /*Post post2 = hibernatePostRepository.findByIdWithHistory(postId1).get();*/
         Post post2 = hibernatePostRepository.findById(postId1).get();
         assertThat(post2.getDescription()).isEqualTo("description1");
         hibernatePostRepository.delete(postId1);
@@ -90,6 +77,7 @@ class HibernatePostRepositoryTest {
         post2.setPrice(post1.getPrice());
         post2.setCar(post1.getCar());
         post2.setUser(post1.getUser());
+        post2.setPriceHistories(post1.getPriceHistories());
         hibernatePostRepository.update(post2);
         System.out.println("**************" + post2.getId() + post2.getDescription() + post2.getPriceHistories());
 

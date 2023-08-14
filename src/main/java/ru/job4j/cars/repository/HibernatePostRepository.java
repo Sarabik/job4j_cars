@@ -3,9 +3,11 @@ package ru.job4j.cars.repository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PriceHistory;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,6 +19,10 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public void save(Post post) {
+        PriceHistory priceHistory = new PriceHistory();
+        priceHistory.setPrice(post.getPrice());
+        priceHistory.setCreated(post.getCreated());
+        post.setPriceHistories(List.of(priceHistory));
         crudRepository.run(session -> session.persist(post));
     }
 
@@ -27,6 +33,12 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public void delete(int postId) {
+        Optional<Post> post = findById(postId);
+        if (post.isPresent() && !post.get().getPriceHistories().isEmpty()) {
+            post.get().getPriceHistories().forEach(p -> crudRepository.run(
+                    "DELETE PriceHistory p WHERE p.id = :pId", Map.of("pId", p.getId())
+            ));
+        }
         crudRepository.run(
                 "DELETE Post WHERE id = :pId",
                 Map.of("pId", postId)
@@ -42,14 +54,6 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public Optional<Post> findById(int postId) {
-        return crudRepository.optional(
-                "FROM Post p WHERE p.id = :pId", Post.class,
-                Map.of("pId", postId)
-        );
-    }
-
-    @Override
-    public Optional<Post> findByIdWithHistory(int postId) {
         return crudRepository.optional(
                 "FROM Post p JOIN FETCH p.priceHistories WHERE p.id = :pId", Post.class,
                 Map.of("pId", postId)
