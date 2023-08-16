@@ -8,8 +8,6 @@ public interface ImageFileRepository {
 
     void save(ImageFile imageFile);
 
-    void update(ImageFile imageFile);
-
     void delete(int id);
 
     Optional<ImageFile> findById(int id);

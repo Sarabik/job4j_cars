@@ -19,11 +19,6 @@ public class HibernateImageFileRepository implements ImageFileRepository {
     }
 
     @Override
-    public void update(ImageFile imageFile) {
-        crudRepository.run(session -> session.merge(imageFile));
-    }
-
-    @Override
     public void delete(int id) {
         crudRepository.run(
                 "DELETE ImageFile WHERE id = :fId",

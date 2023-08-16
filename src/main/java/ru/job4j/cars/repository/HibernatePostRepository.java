@@ -19,10 +19,6 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public void save(Post post) {
-        PriceHistory priceHistory = new PriceHistory();
-        priceHistory.setPrice(post.getPrice());
-        priceHistory.setCreated(post.getCreated());
-        post.setPriceHistories(List.of(priceHistory));
         crudRepository.run(session -> session.persist(post));
     }
 
@@ -33,12 +29,6 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public void delete(int postId) {
-        Optional<Post> post = findById(postId);
-        if (post.isPresent() && !post.get().getPriceHistories().isEmpty()) {
-            post.get().getPriceHistories().forEach(p -> crudRepository.run(
-                    "DELETE PriceHistory p WHERE p.id = :pId", Map.of("pId", p.getId())
-            ));
-        }
         crudRepository.run(
                 "DELETE Post WHERE id = :pId",
                 Map.of("pId", postId)

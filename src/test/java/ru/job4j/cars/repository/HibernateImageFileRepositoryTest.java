@@ -46,26 +46,6 @@ class HibernateImageFileRepositoryTest {
     }
 
     @Test
-    public void whenUpdateImageThenFindUpdated() {
-        ImageFile imageFile1 = new ImageFile();
-        imageFile1.setPath("path");
-        imageFile1.setFileName("name");
-        hibernateImageFileRepository.save(imageFile1);
-        int id = imageFile1.getId();
-
-        ImageFile imageFile2 = new ImageFile();
-        imageFile2.setId(id);
-        imageFile2.setPath("path2");
-        imageFile2.setFileName("name2");
-        hibernateImageFileRepository.update(imageFile2);
-
-        Optional<ImageFile> result = hibernateImageFileRepository.findById(id);
-        assertThat(result.get().getPath()).isEqualTo("path2");
-        assertThat(result.get().getFileName()).isEqualTo("name2");
-        hibernateImageFileRepository.delete(id);
-    }
-
-    @Test
     public void whenDeleteImageThenGetEmptyOptional() {
         ImageFile imageFile1 = new ImageFile();
         imageFile1.setPath("path");

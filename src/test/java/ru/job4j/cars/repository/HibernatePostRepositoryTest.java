@@ -12,6 +12,7 @@ import ru.job4j.cars.model.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -23,6 +24,7 @@ class HibernatePostRepositoryTest {
     private static ImageFileRepository hibernateImageFileRepository;
     private static UserRepository hibernateUserRepository;
     private static CarRepository hibernateCarRepository;
+    private static PriceHistoryRepository hibernatePriceHistoryRepository;
 
     @BeforeAll
     public static void initRepository() {
@@ -32,6 +34,7 @@ class HibernatePostRepositoryTest {
         hibernateImageFileRepository = new HibernateImageFileRepository(new CrudRepository(sessionFactory));
         hibernateUserRepository = new HibernateUserRepository(new CrudRepository(sessionFactory));
         hibernateCarRepository = new HibernateCarRepository(new CrudRepository(sessionFactory));
+        hibernatePriceHistoryRepository = new HibernatePriceHistoryRepository(new CrudRepository(sessionFactory));
     }
 
     @AfterAll
@@ -49,12 +52,18 @@ class HibernatePostRepositoryTest {
         post1.setPrice(33000);
         post1.setCar(car);
         post1.setUser(user);
+        PriceHistory priceHistory = new PriceHistory();
+        priceHistory.setPrice(post1.getPrice());
+        priceHistory.setCreated(post1.getCreated());
+        post1.setPriceHistories(List.of(priceHistory));
 
         hibernatePostRepository.save(post1);
         int postId1 = post1.getId();
 
         Post post2 = hibernatePostRepository.findById(postId1).get();
         assertThat(post2.getDescription()).isEqualTo("description1");
+
+        hibernatePriceHistoryRepository.delete(priceHistory.getId());
         hibernatePostRepository.delete(postId1);
     }
 
@@ -68,6 +77,10 @@ class HibernatePostRepositoryTest {
         post1.setPrice(18000);
         post1.setCar(car);
         post1.setUser(user);
+        PriceHistory priceHistory = new PriceHistory();
+        priceHistory.setPrice(post1.getPrice());
+        priceHistory.setCreated(post1.getCreated());
+        post1.setPriceHistories(List.of(priceHistory));
         hibernatePostRepository.save(post1);
         int postId1 = post1.getId();
 
@@ -83,6 +96,7 @@ class HibernatePostRepositoryTest {
 
         String result = hibernatePostRepository.findById(postId1).get().getDescription();
         assertThat(result).isEqualTo("description2");
+        hibernatePriceHistoryRepository.delete(priceHistory.getId());
         hibernatePostRepository.delete(postId1);
     }
 
