@@ -19,18 +19,29 @@ public class SimpleImageFileService implements ImageFileService {
 
     private final String storageDirectory;
 
+    private final String noImage;
+
     public SimpleImageFileService(ImageFileRepository imageFileRepository,
-                                  @Value("${file.directory}") String storageDirectory) {
+                                  @Value("${file.directory}") String storageDirectory,
+                                  @Value("${file.default.name}") String noImage) {
         this.imageFileRepository = imageFileRepository;
         this.storageDirectory = storageDirectory;
+        this.noImage = noImage;
     }
 
     @Override
     public ImageFile save(ImageFileDto imageFileDto) {
-        String path = getNewFilePath(imageFileDto.getName());
-        writeFileBytes(path, imageFileDto.getContent());
-        ImageFile imageFile = new ImageFile(path, imageFileDto.getName());
-        imageFileRepository.save(imageFile);
+        ImageFile imageFile = new ImageFile();
+        if (imageFileDto != null) {
+            String path = getNewFilePath(imageFileDto.getName());
+            writeFileBytes(path, imageFileDto.getContent());
+            imageFile.setFileName(imageFileDto.getName());
+            imageFile.setPath(path);
+            imageFileRepository.save(imageFile);
+        } else {
+            imageFile.setPath(storageDirectory + java.io.File.separator + noImage);
+            imageFile.setFileName(noImage);
+        }
         return imageFile;
     }
 

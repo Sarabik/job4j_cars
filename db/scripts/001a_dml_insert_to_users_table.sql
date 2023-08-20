@@ -1,3 +1,4 @@
-INSERT INTO users (login, password) VALUES ('111', '111');
-INSERT INTO users (login, password) VALUES ('222', '222');
-INSERT INTO users (login, password) VALUES ('333', '333');
+INSERT INTO users (email, password, phone_number) VALUES
+('mail@mail1.com', '111', '2652034'),
+('mail@mail2.com', '222', '2652321'),
+('mail@mail3.com', '333', '2645334');

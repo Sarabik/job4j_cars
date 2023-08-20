@@ -19,6 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-    private String login;
+    private String email;
     private String password;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 }

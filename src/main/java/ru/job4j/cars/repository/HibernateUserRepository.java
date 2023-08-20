@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,18 +48,18 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findByLikeLogin(String key) {
+    public List<User> findByLikeEmail(String key) {
         return crudRepository.query(
-                "FROM User WHERE LOWER(login) LIKE LOWER(:fKey)", User.class,
+                "FROM User WHERE LOWER(email) LIKE LOWER(:fKey)", User.class,
                 Map.of("fKey", "%" + key + "%")
         );
     }
 
     @Override
-    public Optional<User> findByLogin(String login) {
+    public Optional<User> findByEmailAndPassword(String email, String password) {
         return crudRepository.optional(
-                "FROM User WHERE login = :fLogin", User.class,
-                Map.of("fLogin", login)
+                "FROM User WHERE email = :fEmail AND password = :fPassword", User.class,
+                Map.of("fEmail", email, "fPassword", password)
         );
     }
 }

@@ -14,16 +14,16 @@ public class UserUsage {
                 .buildMetadata().buildSessionFactory()) {
             HibernateUserRepository userRepository = new HibernateUserRepository(new CrudRepository(sf));
             User user = new User();
-            user.setLogin("admin");
+            user.setEmail("admin");
             user.setPassword("admin");
             userRepository.save(user);
             userRepository.findAllOrderById()
                     .forEach(System.out::println);
-            userRepository.findByLikeLogin("i")
+            userRepository.findByLikeEmail("i")
                     .forEach(System.out::println);
             userRepository.findById(user.getId())
                     .ifPresent(System.out::println);
-            userRepository.findByLogin("admin")
+            userRepository.findByEmailAndPassword("admin", "admin")
                     .ifPresent(System.out::println);
             user.setPassword("password");
             userRepository.update(user);

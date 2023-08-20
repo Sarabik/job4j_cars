@@ -36,8 +36,9 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenSaveThenFindItById() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id = user1.getId();
 
@@ -49,15 +50,18 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenUpdateThenFindByIdUpdated() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id = user1.getId();
 
         User user2 = new User();
         user2.setId(user1.getId());
-        user2.setLogin(user1.getLogin());
+        user2.setEmail(user1.getEmail());
         user2.setPassword("password2");
+        user2.setPhoneNumber(user1.getPhoneNumber());
+        user2.setEmail(user1.getEmail());
         hibernateUserRepository.update(user2);
 
         String result = hibernateUserRepository.findById(id).get().getPassword();
@@ -68,8 +72,9 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenDeleteThenFindByIdEmptyOptional() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id = user1.getId();
         hibernateUserRepository.delete(id);
@@ -80,8 +85,9 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenFindAllThenGetCollection() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id = user1.getId();
 
@@ -94,18 +100,21 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenFindByLikeLoginThenGetCollection() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id1 = user1.getId();
 
         User user2 = new User();
-        user2.setLogin("lo");
+        user2.setEmail("lo");
         user2.setPassword("password2");
+        user2.setPhoneNumber("123");
+        user2.setEmail("mail1@mail.com");
         hibernateUserRepository.save(user2);
         int id2 = user2.getId();
 
-        Collection<User> result = hibernateUserRepository.findByLikeLogin("ogi");
+        Collection<User> result = hibernateUserRepository.findByLikeEmail("ogi");
         assertThat(result).contains(user1).doesNotContain(user2);
         hibernateUserRepository.delete(id1);
         hibernateUserRepository.delete(id2);
@@ -114,12 +123,13 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenFindByLoginThenGetIt() {
         User user1 = new User();
-        user1.setLogin("login1");
+        user1.setEmail("login1");
         user1.setPassword("password1");
+        user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
         int id = user1.getId();
 
-        Optional<User> optionalUser = hibernateUserRepository.findByLogin("login1");
+        Optional<User> optionalUser = hibernateUserRepository.findByEmailAndPassword("login1", "password1");
         assertThat(optionalUser.get()).isEqualTo(user1);
         hibernateUserRepository.delete(id);
     }

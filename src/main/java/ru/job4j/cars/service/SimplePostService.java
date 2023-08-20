@@ -25,9 +25,7 @@ public class SimplePostService implements PostService {
     public void save(Post post, ImageFileDto imageFileDto) {
         post.setCreated(LocalDateTime.now());
         post.setPriceHistories(List.of(addNewPriceHistory(post)));
-        if (imageFileDto != null) {
-            post.setImageFile(imageFileService.save(imageFileDto));
-        }
+        post.setImageFile(imageFileService.save(imageFileDto));
         postRepository.save(post);
     }
 
@@ -88,5 +86,25 @@ public class SimplePostService implements PostService {
     @Override
     public Collection<Post> findPostsByMake(String make) {
         return postRepository.findPostsByMake(make);
+    }
+
+    @Override
+    public Collection<Post> findAllActiveByUserId(int id) {
+        return postRepository.findAllActiveByUserId(id);
+    }
+
+    @Override
+    public Collection<Post> findAllSoldByUserId(int id) {
+        return postRepository.findAllSoldByUserId(id);
+    }
+
+    @Override
+    public void movePostToSold(int id) {
+        postRepository.movePostToSold(id);
+    }
+
+    @Override
+    public void updateDate(int id) {
+        postRepository.updateDate(id);
     }
 }

@@ -26,6 +26,7 @@
     <include file="scripts/006a_dml_insert_to_transmissions_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007a_dml_insert_to_colours_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/008a_dml_insert_to_cars_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009a_dml_insert_no_image_to_files_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010a_dml_insert_to_posts_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011a_dml_insert_to_price_history_table.sql" relativeToChangelogFile="true"/>
 

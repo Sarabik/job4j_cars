@@ -4,7 +4,7 @@ CREATE TABLE if NOT EXISTS cars(
     body_type_id INT NOT NULL REFERENCES body_types(id),
     car_year INT NOT NULL,
     fuel_type_id INT NOT NULL REFERENCES fuel_types(id),
-    engine_size_id INT NOT NULL REFERENCES engine_sizes(id),
+    engine_size_id INT REFERENCES engine_sizes(id),
     transmission_id INT NOT NULL REFERENCES transmissions(id),
     mileage BIGINT NOT NULL,
     car_colour_id INT NOT NULL REFERENCES car_colours(id),

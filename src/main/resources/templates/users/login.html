@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!--  Зависимости Bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+    <title>Index</title>
+</head>
+<body>
+<form style="max-width: 500px;" th:action="@{/users/login}" method="post">
+    <div class="mb-3" th:if="${message}">
+        <p class="text-danger" th:text="${message}"></p>
+    </div>
+    <div>
+        <label for="email" class="form-label"><b>Email:</b></label>
+        <input type="text" class="form-control border border-primary border-opacity-50" id="email" name="email" placeholder="mail@mail.com" required>
+    </div>
+    <div>
+        <label for="password" class="form-label"><b>Password:</b></label>
+        <input type="password" class="form-control border border-primary border-opacity-50" id="password" name="password" placeholder="password" required>
+    </div>
+    <div class="d-flex justify-content-between align-items-center p-3">
+        <div>
+            <p class="text-secondary">Not registered yet?  <span><a class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover" th:href="@{/users/register}"><b>Register</b></a></span></p>
+        </div>
+        <div>
+            <div class="row">
+                <div><button class="btn btn-primary w-100" type="submit">Sign in</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

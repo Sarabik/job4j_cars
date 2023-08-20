@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!--  Зависимости Bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+    <title>Index</title>
+</head>
+<body>
+    <div class="container-fluid p-3">
+        <nav class="navbar navbar-expand-lg">
+                <div class="collapse navbar-collapse">
+                    <div class="navbar-nav me-auto">
+                        <a class="nav-item nav-link active" href="/">Cars for sale</a>
+                        <a class="nav-item nav-link" th:href="@{/posts/create}">Add new sale advert</a>
+                        <a class="nav-item nav-link" th:href="@{/posts/mylist}">My adverts</a>
+                    </div>
+                    <div class="navbar-nav d-flex flex-row-reverse" th:if="${user.email == 'guest'}">
+                        <a class="nav-item nav-link me-3" th:href="@{/users/register}">Registration</a>
+                        <a class="nav-item nav-link" th:href="@{/users/login}">Sign in</a>
+                    </div>
+                    <div class="navbar-nav d-flex flex-row-reverse" th:if="${user.email != 'guest'}">
+                        <a class="nav-item nav-link me-3" th:text="${user.email}"></a>
+                        <a class="nav-item nav-link" th:href="@{/users/logout}">Sign out</a>
+                    </div>
+                </div>
+        </nav>
+    </div>
+    <div class="container-fluid p-3">
+        <table>
+            <thead>
+            <tr>
+                <th class="col-3 p-2">Photo</th>
+                <th class="col-4 p-2">Description</th>
+                <th class="col-1 p-2">Model</th>
+                <th class="col-1 p-2">Year</th>
+                <th class="col-1 p-2">Mileage</th>
+                <th class="col-1 p-2">Engine</th>
+                <th class="col-1 p-2">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post: ${posts}">
+                <td class="p-2">
+                    <a th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <img th:src="@{/files/{fileId}(fileId=${post.imageFile.id})}" alt="no image" class="w-75">
+                    </a>
+                </td>
+                <td class="text-truncate p-2" style="max-width: 20px">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${post.description}"></span>
+                    </a>
+                </td>
+                <td class="p-2">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${post.car.carModel.make}"> </span>
+                        <span th:text="${post.car.carModel.model}"></span>
+                    </a>
+                </td>
+                <td class="p-2">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${post.car.carYear}"></span>
+                    </a>
+                </td>
+                <td class="p-2">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${#numbers.formatDecimal(post.car.mileage, 0, 'POINT', 0, 'POINT')}"></span> km
+                    </a>
+                </td>
+                <td class="p-2">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${post.car.engineSize.size}"> </span>
+                        <span th:text="${#strings.substring(post.car.fuelType.name, 0, 1)}"></span>
+                    </a>
+                </td>
+                <td class="p-2">
+                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
+                        <span th:text="${#numbers.formatDecimal(post.price, 0, 'POINT', 0, 'POINT')}"></span> EUR
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

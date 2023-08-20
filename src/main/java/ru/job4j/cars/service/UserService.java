@@ -1,13 +1,11 @@
-package ru.job4j.cars.repository;
+package ru.job4j.cars.service;
 
 import ru.job4j.cars.model.User;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
-
+public interface UserService {
     void save(User user);
 
     void update(User user);
@@ -20,5 +18,5 @@ public interface UserRepository {
 
     Collection<User> findByLikeEmail(String key);
 
-    Optional<User> findByEmailAndPassword(String login, String password);
+    Optional<User> findByEmailAndPassword(String email, String password);
 }

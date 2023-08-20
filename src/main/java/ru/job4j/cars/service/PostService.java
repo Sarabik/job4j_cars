@@ -24,4 +24,12 @@ public interface PostService {
 
     Collection<Post> findPostsByMake(String make);
 
+    Collection<Post> findAllActiveByUserId(int id);
+
+    Collection<Post> findAllSoldByUserId(int id);
+
+    void movePostToSold(int id);
+
+    void updateDate(int id);
+
 }

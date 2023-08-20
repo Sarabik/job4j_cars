@@ -1,21 +1,32 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.PriceHistory;
+import ru.job4j.cars.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
 public class HibernatePostRepository implements PostRepository {
 
     private final CrudRepository crudRepository;
+
+    private final String storageDirectory;
+
+    private final String noImage;
+
+    public HibernatePostRepository(CrudRepository crudRepository,
+                                   @Value("${file.directory}") String storageDirectory,
+                                   @Value("${file.default.name}") String noImage) {
+        this.crudRepository = crudRepository;
+        this.storageDirectory = storageDirectory;
+        this.noImage = noImage;
+    }
 
     @Override
     public void save(Post post) {
@@ -38,7 +49,7 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> findAll() {
         return crudRepository.query(
-                "from Post ORDER BY id asc", Post.class
+                "from Post WHERE isSold = false ORDER BY created desc", Post.class
         );
     }
 
@@ -60,7 +71,8 @@ public class HibernatePostRepository implements PostRepository {
 
     @Override
     public Collection<Post> findPostsWithPhoto() {
-        return crudRepository.query("FROM Post WHERE imageFile IS NOT NULL", Post.class);
+        return crudRepository.query("FROM Post p WHERE p.imageFile.path IS NOT :pPath", Post.class,
+                Map.of("pPath", storageDirectory + java.io.File.separator + noImage));
     }
 
     @Override
@@ -68,5 +80,33 @@ public class HibernatePostRepository implements PostRepository {
         return crudRepository.query("FROM Post p WHERE p.car.carModel.make = :cMake", Post.class,
                 Map.of("cMake", make)
         );
+    }
+
+    @Override
+    public Collection<Post> findAllActiveByUserId(int id) {
+        return crudRepository.query(
+                "from Post p WHERE p.isSold = false AND p.user.id = :pId ORDER BY created desc", Post.class,
+                Map.of("pId", id)
+        );
+    }
+
+    @Override
+    public Collection<Post> findAllSoldByUserId(int id) {
+        return crudRepository.query(
+                "from Post p WHERE p.isSold = true AND p.user.id = :pId ORDER BY created desc", Post.class,
+                Map.of("pId", id)
+        );
+    }
+
+    @Override
+    public void movePostToSold(int id) {
+        crudRepository.run("UPDATE Post SET isSold = true WHERE id = :pId",
+                Map.of("pId", id));
+    }
+
+    @Override
+    public void updateDate(int id) {
+        crudRepository.run("UPDATE Post SET created = :pDate WHERE id = :pId",
+                Map.of("pId", id, "pDate", LocalDateTime.now()));
     }
 }

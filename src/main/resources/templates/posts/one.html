@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!--  Зависимости Bootstrap-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+  <title>Index</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <table class="table">
+        <tr>
+          <td><img th:src="@{/files/{postId}(postId=${post.imageFile.id})}" class="w-100" alt="no image">
+          </td>
+          <td>
+            <p th:text="${post.description}"></p>
+          </td>
+          <td>
+            <ul>
+              <li><b>Price: </b><span th:text="${post.price}"></span> EUR</li>
+              <li><b>Make:</b> <span th:text="${post.car.carModel.make}"></span></li>
+              <li><b>Model:</b> <span th:text="${post.car.carModel.model}"></span></li>
+              <li><b>Body type:</b> <span th:text="${post.car.bodyType.name}"></span></li>
+              <li><b>Year:</b> <span th:text="${post.car.carYear}"></span></li>
+              <li><b>Transmission:</b> <span th:text="${post.car.transmission.name}"></span></li>
+              <li><b>Fuel type:</b> <span th:text="${post.car.fuelType.name}"></span></li>
+              <li><b>Engine size:</b> <span th:text="${post.car.engineSize.size}"></span></li>
+              <li><b>Mileage:</b> <span th:text="${post.car.mileage}"></span> km</li>
+              <li><b>Colour:</b> <span th:text="${post.car.carColour.name}"></span></li>
+              <li><b>Car number:</b> <span th:text="${post.car.number}"></span></li>
+              <li><b>VIN:</b> <span th:text="${post.car.vin}"></span></li>
+              <li><b>Owner phone number:</b> <span th:text="${post.user.phoneNumber}"></span></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div th:if="${post.user.email == user.email}">
+      <a class="btn btn-primary" th:href="@{/posts/change/{postId}(postId=${post.id})}"
+         role="button" th:if="${post.isSold == false}">Edit advert</a>
+      <a class="btn btn-primary" th:href="@{/posts/updateDate/{postId}(postId=${post.id})}"
+         role="button" th:if="${post.isSold == false}">Update advert</a>
+      <a class="btn btn-primary" th:href="@{/posts/sold/{postId}(postId=${post.id})}"
+         role="button" th:if="${post.isSold == false}">Car is sold</a>
+      <a class="btn btn-primary" th:href="@{/posts/delete/{postId}(postId=${post.id})}"
+         role="button">Delete advert</a>
+    </div>
+  </div>
+</body>
+</html>
