@@ -11,60 +11,63 @@
 
     <title>Index</title>
 </head>
-<body>
-<div class="container-fluid p-3" th:if="${#lists.isEmpty(posts) and #lists.isEmpty(sold)}">
-    <h4>There is no adverts</h4>
+<body class="m-3">
+<div th:replace="blocks/navigation.html :: navigationBlock"></div>
+<div class="container-fluid px-0 py-2" th:if="${#lists.isEmpty(posts) and #lists.isEmpty(sold)}">
+    <h5>There is no adverts</h5>
 </div>
-<div class="container-fluid p-3" th:if="${not #lists.isEmpty(posts)}">
-    <h4>My active adverts</h4>
+<div class="container-fluid px-0 py-2" th:if="${not #lists.isEmpty(posts)}">
+    <h5 class="text-center fw-semibold p-2">My active adverts</h5>
     <table>
         <thead>
-        <tr>
-            <th class="col-3 p-2">Photo</th>
-            <th class="col-4 p-2">Description</th>
-            <th class="col-1 p-2">Model</th>
-            <th class="col-1 p-2">Year</th>
-            <th class="col-1 p-2">Mileage</th>
-            <th class="col-1 p-2">Engine</th>
-            <th class="col-1 p-2">Price</th>
+        <tr class="border-bottom border-secondary border-opacity-50">
+            <th class="col-3 p-2 text-center">Photo</th>
+            <th class="col-4 p-2 text-center">Advert text</th>
+            <th class="col-1 p-2 text-center">Model</th>
+            <th class="col-1 p-2 text-center">Year</th>
+            <th class="col-1 p-2 text-center">Mileage</th>
+            <th class="col-1 p-2 text-center">Engine</th>
+            <th class="col-1 p-2 text-center">Price</th>
         </tr>
         </thead>
         <tbody>
         <div>
-            <tr th:each="post: ${posts}">
-                <td class="p-2">
+            <tr th:each="post: ${posts}" class="border-bottom border-secondary border-opacity-50">
+                <td class="p-2 border-end border-secondary border-opacity-25">
                     <a th:href="@{/posts/{postId}(postId=${post.id})}">
-                        <img th:src="@{/files/{fileId}(fileId=${post.imageFile.id})}" alt="no image" class="w-75">
+                        <img th:src="@{/files/{fileId}(fileId=${post.imageFile.id})}" alt="no image" class="w-100"
+                        style="height:160px; object-fit: contain;">
                     </a>
                 </td>
-                <td class="text-truncate p-2" style="max-width: 20px">
+                <td style="max-width:100px" class="text-wrap border-end border-secondary border-opacity-25">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
-                        <span th:text="${post.description}"></span>
+                        <p class="p-2"><span th:text="${post.description}" style="display: -webkit-box; -webkit-line-clamp: 6;
+                        -webkit-box-orient: vertical; overflow: hidden;"></span></p>
                     </a>
                 </td>
-                <td class="p-2">
+                <td class="p-2 border-end border-secondary border-opacity-25 text-center">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
                         <span th:text="${post.car.carModel.make}"> </span>
                         <span th:text="${post.car.carModel.model}"></span>
                     </a>
                 </td>
-                <td class="p-2">
+                <td class="p-2 border-end border-secondary border-opacity-25 text-center">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
                         <span th:text="${post.car.carYear}"></span>
                     </a>
                 </td>
-                <td class="p-2">
+                <td class="p-2 border-end border-secondary border-opacity-25 text-center">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
                         <span th:text="${#numbers.formatDecimal(post.car.mileage, 0, 'POINT', 0, 'POINT')}"></span> km
                     </a>
                 </td>
-                <td class="p-2">
+                <td class="p-2 border-end border-secondary border-opacity-25 text-center">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
                         <span th:text="${post.car.engineSize.size}"> </span>
                         <span th:text="${#strings.substring(post.car.fuelType.name, 0, 1)}"></span>
                     </a>
                 </td>
-                <td class="p-2">
+                <td class="p-2 text-center">
                     <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${post.id})}">
                         <span th:text="${#numbers.formatDecimal(post.price, 0, 'POINT', 0, 'POINT')}"></span> EUR
                     </a>
@@ -74,65 +77,69 @@
         </tbody>
     </table>
 </div>
-<div class="container-fluid p-3" th:if="${not #lists.isEmpty(sold)}">
-    <h4>My sold cars</h4>
+<div class="container-fluid px-0 py-2" th:if="${not #lists.isEmpty(sold)}">
+    <h5 class="text-center fw-semibold p-2">My sold cars</h5>
     <table>
         <thead>
-        <tr>
-            <th class="col-3 p-2">Photo</th>
-            <th class="col-4 p-2">Description</th>
-            <th class="col-1 p-2">Model</th>
-            <th class="col-1 p-2">Year</th>
-            <th class="col-1 p-2">Mileage</th>
-            <th class="col-1 p-2">Engine</th>
-            <th class="col-1 p-2">Price</th>
+        <tr class="border-bottom border-secondary border-opacity-50">
+            <th class="col-3 p-2 text-center">Photo</th>
+            <th class="col-4 p-2 text-center">Advert text</th>
+            <th class="col-1 p-2 text-center">Model</th>
+            <th class="col-1 p-2 text-center">Year</th>
+            <th class="col-1 p-2 text-center">Mileage</th>
+            <th class="col-1 p-2 text-center">Engine</th>
+            <th class="col-1 p-2 text-center">Price</th>
         </tr>
         </thead>
-        <tbody>
-        <div>
-            <tr th:each="soldPost: ${sold}">
-                <td class="p-2">
+            <tbody>
+            <div>
+                <tr th:each="soldPost: ${sold}" class="border-bottom border-secondary border-opacity-50">
+                    <td class="p-2 border-end border-secondary border-opacity-25">
                     <a th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <img th:src="@{/files/{fileId}(fileId=${soldPost.imageFile.id})}" alt="no image" class="w-75">
+                        <img th:src="@{/files/{fileId}(fileId=${soldPost.imageFile.id})}" alt="no image" class="w-100"
+                             style="height:160px; object-fit: contain;">
                     </a>
-                </td>
-                <td class="text-truncate p-2" style="max-width: 20px">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${soldPost.description}"></span>
-                    </a>
-                </td>
-                <td class="p-2">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${soldPost.car.carModel.make}"> </span>
-                        <span th:text="${soldPost.car.carModel.model}"></span>
-                    </a>
-                </td>
-                <td class="p-2">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${soldPost.car.carYear}"></span>
-                    </a>
-                </td>
-                <td class="p-2">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${#numbers.formatDecimal(soldPost.car.mileage, 0, 'POINT', 0, 'POINT')}"></span> km
-                    </a>
-                </td>
-                <td class="p-2">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${soldPost.car.engineSize.size}"> </span>
-                        <span th:text="${#strings.substring(soldPost.car.fuelType.name, 0, 1)}"></span>
-                    </a>
-                </td>
-                <td class="p-2">
-                    <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
-                        <span th:text="${#numbers.formatDecimal(soldPost.price, 0, 'POINT', 0, 'POINT')}"></span> EUR
-                    </a>
-                </td>
-            </tr>
-        </div>
-        </tbody>
+                    </td>
+                    <td style="max-width:100px" class="text-wrap border-end border-secondary border-opacity-25">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <p class="p-2"><span th:text="${soldPost.description}" style="display: -webkit-box; -webkit-line-clamp: 6;
+                        -webkit-box-orient: vertical; overflow: hidden;"></span></p>
+                        </a>
+                    </td>
+                    <td class="p-2 border-end border-secondary border-opacity-25 text-center">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <span th:text="${soldPost.car.carModel.make}"> </span>
+                            <span th:text="${soldPost.car.carModel.model}"></span>
+                        </a>
+                    </td>
+                    <td class="p-2 border-end border-secondary border-opacity-25 text-center">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <span th:text="${soldPost.car.carYear}"></span>
+                        </a>
+                    </td>
+                    <td class="p-2 border-end border-secondary border-opacity-25 text-center">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <span th:text="${#numbers.formatDecimal(soldPost.car.mileage, 0, 'POINT', 0, 'POINT')}"></span> km
+                        </a>
+                    </td>
+                    <td class="p-2 border-end border-secondary border-opacity-25 text-center">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <span th:text="${soldPost.car.engineSize.size}"> </span>
+                            <span th:text="${#strings.substring(soldPost.car.fuelType.name, 0, 1)}"></span>
+                        </a>
+                    </td>
+                    <td class="p-2 text-center">
+                        <a class="link-dark link-underline-opacity-0" th:href="@{/posts/{postId}(postId=${soldPost.id})}">
+                            <span th:text="${#numbers.formatDecimal(soldPost.price, 0, 'POINT', 0, 'POINT')}"></span> EUR
+                        </a>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
     </table>
 </div>
-<a class="btn btn-primary" role="button" th:href="@{/posts/create}">Add new sale advert</a>
+<div class="d-flex pt-2 justify-content-end">
+    <a class="btn btn-outline-secondary" role="button" th:href="@{/posts/create}">Add new sale advert</a>
+</div>
 </body>
 </html>

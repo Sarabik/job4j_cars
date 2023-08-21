@@ -18,10 +18,6 @@ import java.util.function.Function;
 public class CrudRepository {
     private final SessionFactory sf;
 
-    /* Метод run для методов без возвращаемого значения (создание, обновление, удаление)
-    * Метод optional для методов возвращающих optional (поиск по значению одного из полей)
-    * Метод query для методов возвращающих коллекции */
-
     public void run(Consumer<Session> command) {
         tx(session -> {
                     command.accept(session);
@@ -73,11 +69,6 @@ public class CrudRepository {
         return tx(command);
     }
 
-    /* Этот метод выполняет абстрактную операцию.
-    Он принимает некую "команду", открывает сессию, начинает транзакцию и выполняет эту команду.
-    Команда принимается в виде объекта функционального интерфейса, благодаря чему достигается абстрактность операции.
-    Методу tx() не важно, придет команда на вставку данных, изменение, удаление и т.д.
-    Он не знает её внутреннюю реализацию, он просто получает команду и выполняет её. */
     public <T> T tx(Function<Session, T> command) {
         Session session = sf.openSession();
         Transaction transaction = null;

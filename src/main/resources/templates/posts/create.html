@@ -11,112 +11,118 @@
 
   <title>Index</title>
 </head>
-<body>
-<div class="container-fluid p-3">
-  <div class="container-fluid border border-primary border-opacity-50">
+<body class="m-3">
+<div th:replace="blocks/navigation.html :: navigationBlock"></div>
+<div class="container-fluid px-0 py-3">
+  <div class="border border-secondary border-opacity-50">
+      <h5 class="text-center fw-semibold p-2">The car information</h5>
     <form th:action="@{/posts/create}" method="post" enctype="multipart/form-data">
-<!--Car model-->
-      <div class="mb-3">
-        <label for="carModel">Select car model:</label>
-        <select class="form-control border border-primary border-opacity-50" id="carModel" name="carModel.id" required>
-          <option></option>
-          <option th:each="carModel : ${carModels}" th:value="${carModel.id}"
-                  th:text="${carModel.make + ' ' + carModel.model}"></option>
-        </select>
-      </div>
-<!--Car year-->
-      <div class="mb-3">
-        <label for="carYear">Year:</label>
-        <select class="form-control border border-primary border-opacity-50" id="carYear" name="carYear" required>
-          <option></option>
-          <option th:each="carYear : ${#numbers.sequence(1950, #dates.year(#dates.createNow()))}"
-                  th:value="${carYear}" th:text="${carYear}"></option>
-        </select>
-      </div>
-<!--Car body-->
-      <div class="mb-3">
-        <label for="carBody">Select car body:</label>
-        <select class="form-control border border-primary border-opacity-50" id="carBody" name="bodyType.id" required>
-          <option></option>
-          <option th:each="carBody : ${allBodyTypes}" th:value="${carBody.id}"
-                  th:text="${carBody.name}"></option>
-        </select>
-      </div>
-<!--Car fuel type-->
-      <div class="mb-3">
-        <label for="fuelType">Select fuel type:</label>
-        <select class="form-control border border-primary border-opacity-50" id="fuelType" name="fuelType.id" required>
-          <option></option>
-          <option th:each="fuelType : ${allFuelTypes}" th:value="${fuelType.id}"
-                  th:text="${fuelType.name}"></option>
-        </select>
-      </div>
-<!--Car engine size-->
-      <div class="mb-3">
-        <label for="engineSize">Select engine size:</label>
-        <select class="form-control border border-primary border-opacity-50" id="engineSize" name="engineSize.id">
-          <option></option>
-          <option th:each="engineSize : ${allEngineSizes}" th:value="${engineSize.id}"
-                  th:text="${engineSize.size}"></option>
-        </select>
-      </div>
-<!--Car transmission-->
-      <div class="mb-3">
-        <label for="transmission">Select transmission:</label>
-        <select class="form-control border border-primary border-opacity-50" id="transmission" name="transmission.id" required>
-          <option></option>
-          <option th:each="transmission : ${allTransmissions}" th:value="${transmission.id}"
-                  th:text="${transmission.name}"></option>
-        </select>
-      </div>
-<!--Car colour-->
-      <div class="mb-3">
-        <label for="carColour">Select car colour:</label>
-        <select class="form-control border border-primary border-opacity-50" id="carColour" name="carColour.id" required>
-          <option></option>
-          <option th:each="carColour : ${allCarColours}" th:value="${carColour.id}"
-                  th:text="${carColour.name}"></option>
-        </select>
-      </div>
-<!--Car mileage-->
-      <div class="mb-3">
-        <label for="mileage">Mileage (km):</label>
-        <input type="text" class="form-control border border-primary border-opacity-50"
-                  id="mileage" name="mileage" required>
-      </div>
-<!--Car number-->
-        <div class="mb-3">
-            <label for="number">Car number:</label>
-            <input type="text" class="form-control border border-primary border-opacity-50"
-                   id="number" name="number">
+        <div class="p-3 d-flex flex-wrap">
+            <!--Car model-->
+            <div class="p-2" style="width:250px">
+                <label for="carModel">Car model:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="carModel" name="carModel.id" required>
+                    <option></option>
+                    <option th:each="carModel : ${carModels}" th:value="${carModel.id}"
+                            th:text="${carModel.make + ' ' + carModel.model}"></option>
+                </select>
+            </div>
+            <!--Car body-->
+            <div class="p-2" style="width:150px">
+                <label for="carBody">Car body:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="carBody" name="bodyType.id" required>
+                    <option></option>
+                    <option th:each="carBody : ${allBodyTypes}" th:value="${carBody.id}"
+                            th:text="${carBody.name}"></option>
+                </select>
+            </div>
+            <!--Car year-->
+            <div class="p-2" style="width:150px">
+                <label for="carYear">Year:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="carYear" name="carYear" required>
+                    <option></option>
+                    <option th:each="carYear : ${#numbers.sequence(1950, #dates.year(#dates.createNow()))}"
+                            th:value="${carYear}" th:text="${carYear}"></option>
+                </select>
+            </div>
+            <!--Car transmission-->
+            <div class="p-2" style="width:150px">
+                <label for="transmission">Transmission:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="transmission" name="transmission.id" required>
+                    <option></option>
+                    <option th:each="transmission : ${allTransmissions}" th:value="${transmission.id}"
+                            th:text="${transmission.name}"></option>
+                </select>
+            </div>
+            <!--Car fuel type-->
+            <div class="p-2" style="width:150px">
+                <label for="fuelType">Fuel type:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="fuelType" name="fuelType.id" required>
+                    <option></option>
+                    <option th:each="fuelType : ${allFuelTypes}" th:value="${fuelType.id}"
+                            th:text="${fuelType.name}"></option>
+                </select>
+            </div>
+            <!--Car engine size-->
+            <div class="p-2" style="width:150px">
+                <label for="engineSize">Engine size:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="engineSize" name="engineSize.id">
+                    <option></option>
+                    <option th:each="engineSize : ${allEngineSizes}" th:value="${engineSize.id}"
+                            th:text="${engineSize.size}"></option>
+                </select>
+            </div>
+            <!--Car colour-->
+            <div class="p-2" style="width:150px">
+                <label for="carColour">Car colour:</label>
+                <select class="form-control border border-secondary border-opacity-50" id="carColour" name="carColour.id" required>
+                    <option></option>
+                    <option th:each="carColour : ${allCarColours}" th:value="${carColour.id}"
+                            th:text="${carColour.name}"></option>
+                </select>
+            </div>
+            <!--Car mileage-->
+            <div class="p-2" style="width:150px">
+                <label for="mileage">Mileage (km):</label>
+                <input type="text" class="form-control border border-secondary border-opacity-50"
+                       id="mileage" name="mileage" required>
+            </div>
         </div>
-<!--Car vin-->
-        <div class="mb-3">
-            <label for="vin">VIN:</label>
-            <input type="text" class="form-control border border-primary border-opacity-50"
-                   id="vin" name="vin">
+        <div class="p-3 d-flex flex-wrap">
+            <!--Car number-->
+            <div class="p-2" style="width:250px">
+                <label for="number">Car number:</label>
+                <input type="text" class="form-control border border-secondary border-opacity-50"
+                       id="number" name="number">
+            </div>
+            <!--Car vin-->
+            <div class="p-2" style="width:250px">
+                <label for="vin">VIN:</label>
+                <input type="text" class="form-control border border-secondary border-opacity-50"
+                       id="vin" name="vin">
+            </div>
         </div>
 <!--Car photo-->
-        <div class="mb-3">
+        <div class="px-4" style="width:400px">
             <label for="imageFile">Car photo:</label>
-            <input class="form-control form-control-sm w-100" type="file" id="imageFile" name="imageFileDto">
+            <input class="form-control form-control-sm border border-secondary border-opacity-50" type="file" id="imageFile" name="imageFileDto">
         </div>
 <!--Description-->
-      <div class="mb-3">
+      <div class="p-4" style="max-width:900px">
           <label for="description">Advert text:</label>
-          <textarea type="text" class="form-control border border-primary border-opacity-50" rows="10"
+          <textarea type="text" class="form-control border border-secondary border-opacity-50" rows="10"
                     id="description" name="description" required></textarea>
       </div>
 <!--Car price-->
-        <div class="mb-3">
+        <div class="px-4" style="width:250px">
             <label for="price">Price (EUR):</label>
-            <input type="text" class="form-control border border-primary border-opacity-50"
+            <input type="text" class="form-control border border-secondary border-opacity-50"
                    id="price" name="price">
         </div>
 
-      <div class="pb-2">
-        <button type="submit" class="btn btn-primary">Add post</button>
-        <a class="btn btn-primary opacity-50 m-2" href="/posts" role="button">Back to post list</a>
+      <div class="d-flex p-4 justify-content-end">
+        <button type="submit" class="btn btn-outline-secondary me-2">Add post</button>
+        <a class="btn btn-outline-secondary" href="/posts" role="button">Back to post list</a>
       </div>
     </form>
   </div>

@@ -11,26 +11,27 @@
 
     <title>Index</title>
 </head>
-<body>
-<form style="max-width: 500px;" th:action="@{/users/login}" method="post">
+<body class="m-3">
+<div th:replace="blocks/navigation.html :: navigationBlock"></div>
+<form style="max-width: 500px;" th:action="@{/users/login}" method="post" class="py-4">
     <div class="mb-3" th:if="${message}">
         <p class="text-danger" th:text="${message}"></p>
     </div>
     <div>
         <label for="email" class="form-label"><b>Email:</b></label>
-        <input type="text" class="form-control border border-primary border-opacity-50" id="email" name="email" placeholder="mail@mail.com" required>
+        <input type="text" class="form-control border border-secondary border-opacity-50" id="email" name="email" placeholder="mail@mail.com" required>
     </div>
     <div>
         <label for="password" class="form-label"><b>Password:</b></label>
-        <input type="password" class="form-control border border-primary border-opacity-50" id="password" name="password" placeholder="password" required>
+        <input type="password" class="form-control border border-secondary border-opacity-50" id="password" name="password" placeholder="password" required>
     </div>
-    <div class="d-flex justify-content-between align-items-center p-3">
+    <div class="d-flex justify-content-between align-items-center ps-3 pt-3">
         <div>
             <p class="text-secondary">Not registered yet?  <span><a class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover" th:href="@{/users/register}"><b>Register</b></a></span></p>
         </div>
         <div>
             <div class="row">
-                <div><button class="btn btn-primary w-100" type="submit">Sign in</button>
+                <div><button class="btn btn-outline-secondary w-100" type="submit">Sign in</button>
                 </div>
             </div>
         </div>

@@ -11,17 +11,18 @@
 
   <title>Index</title>
 </head>
-<body>
-  <div class="container">
-    <div class="row">
+<body class="m-3">
+  <div th:replace="blocks/navigation.html :: navigationBlock"></div>
+  <div class="container-fluid px-0 py-2">
       <table class="table">
         <tr>
-          <td><img th:src="@{/files/{postId}(postId=${post.imageFile.id})}" class="w-100" alt="no image">
-          </td>
           <td>
-            <p th:text="${post.description}"></p>
+            <div>
+              <img th:src="@{/files/{postId}(postId=${post.imageFile.id})}" class="w-100" alt="no image">
+              <p class="p-2" th:text="${post.description}"></p>
+            </div>
           </td>
-          <td>
+          <td style="width:270px">
             <ul>
               <li><b>Price: </b><span th:text="${post.price}"></span> EUR</li>
               <li><b>Make:</b> <span th:text="${post.car.carModel.make}"></span></li>
@@ -35,20 +36,21 @@
               <li><b>Colour:</b> <span th:text="${post.car.carColour.name}"></span></li>
               <li><b>Car number:</b> <span th:text="${post.car.number}"></span></li>
               <li><b>VIN:</b> <span th:text="${post.car.vin}"></span></li>
-              <li><b>Owner phone number:</b> <span th:text="${post.user.phoneNumber}"></span></li>
+              <li><b>Phone number:</b> <span th:text="${post.user.phoneNumber}"></span></li>
+              <li><b>Posted:</b> <span th:text="${#temporals.format(post.created, 'dd.MM.yyyy')}"></span></li>
             </ul>
           </td>
         </tr>
       </table>
     </div>
-    <div th:if="${post.user.email == user.email}">
-      <a class="btn btn-primary" th:href="@{/posts/change/{postId}(postId=${post.id})}"
+    <div th:if="${post.user.email == user.email}" class="d-flex justify-content-end">
+      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/change/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Edit advert</a>
-      <a class="btn btn-primary" th:href="@{/posts/updateDate/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/updateDate/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Update advert</a>
-      <a class="btn btn-primary" th:href="@{/posts/sold/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/sold/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Car is sold</a>
-      <a class="btn btn-primary" th:href="@{/posts/delete/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary" th:href="@{/posts/delete/{postId}(postId=${post.id})}"
          role="button">Delete advert</a>
     </div>
   </div>

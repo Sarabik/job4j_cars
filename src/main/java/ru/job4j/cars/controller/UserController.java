@@ -29,11 +29,6 @@ public class UserController {
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute User user) {
         userService.save(user);
-        /* change
-        if (userService.findById(user.getId()).isEmpty()) {
-            model.addAttribute("error", "User with this email already exists");
-            return "users/register";
-        }*/
         return "redirect:/users/login";
     }
 

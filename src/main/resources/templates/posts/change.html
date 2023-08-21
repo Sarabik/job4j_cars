@@ -11,27 +11,28 @@
 
     <title>Index</title>
 </head>
-<body>
-<div class="container-fluid p-3">
-    <div class="container-fluid border border-primary border-opacity-50">
-        <form th:action="@{/posts/change/{postId}(postId=${post.id})}" method="post" enctype="multipart/form-data">
+<body class="m-3">
+<div th:replace="blocks/navigation.html :: navigationBlock"></div>
+<div class="container-fluid px-0 py-3">
+    <div class="border border-secondary border-opacity-50">
+        <form th:action="@{/posts/change/{postId}(postId=${post.id})}" method="post" enctype="multipart/form-data" class="p-3">
             <input type="hidden" name="id" th:field="${post.id}">
             <!--Description-->
             <div class="mb-3">
                 <label for="description">Advert text:</label>
-                <textarea type="text" class="form-control border border-primary border-opacity-50" rows="10"
+                <textarea type="text" class="form-control border border-secondary border-opacity-50" rows="10"
                           id="description" name="description" th:field="${post.description}" required></textarea>
             </div>
             <!--Car price-->
             <div class="mb-3">
                 <label for="price">Price (EUR):</label>
-                <input type="text" class="form-control border border-primary border-opacity-50"
+                <input type="text" class="form-control border border-secondary border-opacity-50"
                        id="price" name="price" th:field="${post.price}">
             </div>
 
             <div class="pb-2">
-                <button type="submit" class="btn btn-primary">Change advert</button>
-                <a class="btn btn-primary opacity-50 m-2" href="/posts/mylist" role="button">Back to my adverts list</a>
+                <button type="submit" class="btn btn-outline-secondary">Change advert</button>
+                <a class="btn btn-outline-secondary m-2" href="/posts/mylist" role="button">Back to my adverts list</a>
             </div>
         </form>
     </div>

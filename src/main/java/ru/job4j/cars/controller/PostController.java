@@ -106,7 +106,6 @@ public class PostController {
         return "posts/mylist";
     }
 
-    /* доработать */
     @GetMapping("/change/{postId}")
     public String getEditPostPage(@PathVariable int postId, Model model) {
         Optional<Post> optionalPost = postService.findById(postId);
