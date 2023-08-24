@@ -34,7 +34,7 @@ class HibernateCarColourRepositoryTest {
     @Test
     public void whenFindAllThenGetCollection() {
         Collection<CarColour> result = hibernateCarColourRepository.findAll();
-        assertThat(result).hasSize(12);
+        assertThat(result).hasSize(13);
         assertThat(result.stream().map(CarColour::getName)).containsOnly(
                 "beige", "black", "multicolor", "pink", "brown", "yellow",
                 "green", "purple", "blue", "orange", "white", "red", "grey"
