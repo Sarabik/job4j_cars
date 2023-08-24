@@ -12,4 +12,6 @@ public interface ImageFileRepository {
 
     Optional<ImageFile> findById(int id);
 
+    ImageFile getDefault();
+
 }

@@ -13,12 +13,12 @@
 </head>
 <body class="m-3">
   <div th:replace="blocks/navigation.html :: navigationBlock"></div>
-  <div class="container-fluid px-0 py-2">
+  <div class="container-fluid px-0 py-2" style="max-width:1100px;">
       <table class="table">
         <tr>
           <td>
             <div>
-              <img th:src="@{/files/{postId}(postId=${post.imageFile.id})}" class="w-100" alt="no image">
+              <img th:src="@{/files/{postId}(postId=${post.imageFile.id})}" class="w-100" alt="no image" style="max-width:800px;">
               <p class="p-2" th:text="${post.description}"></p>
             </div>
           </td>
@@ -42,7 +42,6 @@
           </td>
         </tr>
       </table>
-    </div>
     <div th:if="${post.user.email == user.email}" class="d-flex justify-content-end">
       <a class="btn btn-outline-secondary me-2" th:href="@{/posts/change/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Edit advert</a>
@@ -52,6 +51,7 @@
          role="button" th:if="${post.isSold == false}">Car is sold</a>
       <a class="btn btn-outline-secondary" th:href="@{/posts/delete/{postId}(postId=${post.id})}"
          role="button">Delete advert</a>
+    </div>
     </div>
   </div>
 </body>

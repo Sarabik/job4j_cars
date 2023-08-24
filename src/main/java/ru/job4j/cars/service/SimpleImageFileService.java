@@ -6,6 +6,7 @@ import ru.job4j.cars.dto.ImageFileDto;
 import ru.job4j.cars.model.ImageFile;
 import ru.job4j.cars.repository.ImageFileRepository;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -77,6 +78,16 @@ public class SimpleImageFileService implements ImageFileService {
 
     @Override
     public void delete(int id) {
-        imageFileRepository.delete(id);
+        Optional<ImageFile> opt = imageFileRepository.findById(id);
+        if (opt.isPresent() && !noImage.equals(opt.get().getFileName())) {
+            File file = new File(opt.get().getPath());
+            file.delete();
+            imageFileRepository.delete(id);
+        }
+    }
+
+    @Override
+    public ImageFile getDefault() {
+        return imageFileRepository.getDefault();
     }
 }

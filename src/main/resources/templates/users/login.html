@@ -12,8 +12,21 @@
     <title>Index</title>
 </head>
 <body class="m-3">
-<div th:replace="blocks/navigation.html :: navigationBlock"></div>
-<form style="max-width: 500px;" th:action="@{/users/login}" method="post" class="py-4">
+<div th:fragment="navigationBlock" class="container-fluid px-4 bg-secondary bg-opacity-50 border-bottom border-top border-secondary">
+    <nav class="navbar navbar-expand">
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link" href="/"><h5 class="px-2 fw-semibold">Cars for sale</h5></a>
+                <a class="nav-item nav-link" th:href="@{/posts/create}"><h5 class="px-2 fw-semibold">Add new sale advert</h5></a>
+            </div>
+            <div class="navbar-nav d-flex flex-row-reverse">
+                <a class="nav-item nav-link me-3" th:href="@{/users/register}">Registration</a>
+                <a class="nav-item nav-link" th:href="@{/users/login}">Sign in</a>
+            </div>
+        </div>
+    </nav>
+</div>
+<form style="max-width: 500px;" th:action="@{/users/login}" method="post" class="py-4 container">
     <div class="mb-3" th:if="${message}">
         <p class="text-danger" th:text="${message}"></p>
     </div>

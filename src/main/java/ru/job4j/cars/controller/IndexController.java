@@ -12,7 +12,7 @@ public class IndexController {
 
     @GetMapping
     public String redirectToPosts() {
-        return "redirect:/posts";
+        return "redirect:/posts/list";
     }
 
 }

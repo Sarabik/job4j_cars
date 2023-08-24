@@ -26,14 +26,9 @@ public class SimpleCarModelService implements CarModelService {
     }
 
     @Override
-    public Collection<String> findAllCarMadeCollection() {
+    public Collection<String> findAllCarMakeCollection() {
         Set<String> carMadeSet = new HashSet<>();
         findAll().forEach(carModel -> carMadeSet.add(carModel.getMake()));
         return carMadeSet;
-    }
-
-    @Override
-    public Collection<CarModel> findByCarMake(String make) {
-        return carModelRepository.findByCarMake(make);
     }
 }

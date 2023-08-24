@@ -37,10 +37,31 @@ public class PostController {
 
     private final CarService carService;
 
-    @GetMapping
-    public String getPostList(Model model) {
-        Collection<Post> posts = postService.findAll();
-        model.addAttribute("posts", posts);
+    @GetMapping("/list")
+    public String getPostList(Model model,
+                              @RequestParam(name = "priceFrom", required = false) Long priceFrom,
+                              @RequestParam(name = "priceUntil", required = false) Long priceUntil,
+                              @RequestParam(name = "yearFrom", required = false) Integer yearFrom,
+                              @RequestParam(name = "yearUntil", required = false) Integer yearUntil,
+                              @RequestParam(name = "carMake", required = false) String carMake) {
+        model.addAttribute("carMakes", carModelService.findAllCarMakeCollection());
+        model.addAttribute("sPriceFrom", priceFrom);
+        model.addAttribute("sPriceUntil", priceUntil);
+        model.addAttribute("sYearFrom", yearFrom);
+        model.addAttribute("sYearUntil", yearUntil);
+        model.addAttribute("sCarMake", carMake);
+
+        Collection<Post> collection = postService.findAllNotSold();
+        if (carMake != null && !carMake.isEmpty()) {
+            collection.retainAll(postService.findPostsByMake(carMake));
+        }
+        if (priceFrom != null || priceUntil != null) {
+            collection.retainAll(postService.findPostsByPriceInterval(priceFrom, priceUntil));
+        }
+        if (yearFrom != null || yearUntil != null) {
+            collection.retainAll(postService.findPostsByYearInterval(yearFrom, yearUntil));
+        }
+        model.addAttribute("posts", collection);
         return "posts/list";
     }
 
@@ -56,12 +77,7 @@ public class PostController {
     }
 
     @GetMapping("/create")
-    public String getPostCreatePage(Model model,
-                                    @RequestAttribute(value = "make", required = false) String make) {
-        model.addAttribute("allCarMakes", carModelService.findAllCarMadeCollection());
-        if (make != null) {
-            model.addAttribute("allCarModels", carModelService.findByCarMake(make));
-        }
+    public String getPostCreatePage(Model model) {
         model.addAttribute("carModels", carModelService.findAll());
         model.addAttribute("allBodyTypes", bodyTypeService.findAll());
         model.addAttribute("allFuelTypes", fuelTypeService.findAll());

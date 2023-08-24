@@ -24,10 +24,4 @@ public class HibernateCarModelRepository implements CarModelRepository {
         return crudRepository.optional("FROM CarModel WHERE id = :mId", CarModel.class,
                 Map.of("mId", id));
     }
-
-    @Override
-    public Collection<CarModel> findByCarMake(String make) {
-        return crudRepository.query("FROM CarModel WHERE make = :cMake", CarModel.class,
-                Map.of("cMake", make));
-    }
 }

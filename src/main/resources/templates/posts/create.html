@@ -41,7 +41,7 @@
                 <label for="carYear">Year:</label>
                 <select class="form-control border border-secondary border-opacity-50" id="carYear" name="carYear" required>
                     <option></option>
-                    <option th:each="carYear : ${#numbers.sequence(1950, #dates.year(#dates.createNow()))}"
+                    <option th:each="carYear : ${#numbers.sequence(#dates.year(#dates.createNow()), 1950)}"
                             th:value="${carYear}" th:text="${carYear}"></option>
                 </select>
             </div>

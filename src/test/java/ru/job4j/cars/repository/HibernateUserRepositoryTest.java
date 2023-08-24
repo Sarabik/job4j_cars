@@ -5,6 +5,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +19,19 @@ import static org.assertj.core.api.Assertions.*;
 class HibernateUserRepositoryTest {
 
     private static StandardServiceRegistry registry;
-    private static SessionFactory sessionFactory;
     private static UserRepository hibernateUserRepository;
 
     @BeforeAll
     public static void initRepository() {
         registry = new StandardServiceRegistryBuilder().configure().build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         hibernateUserRepository = new HibernateUserRepository(new CrudRepository(sessionFactory));
+    }
+
+    @AfterEach
+    public void clear() {
+        hibernateUserRepository.findAllOrderById()
+                .forEach(p -> hibernateUserRepository.delete(p.getId()));
     }
 
     @AfterAll
@@ -44,7 +50,6 @@ class HibernateUserRepositoryTest {
 
         User result = hibernateUserRepository.findById(id).get();
         assertThat(result).isEqualTo(user1);
-        hibernateUserRepository.delete(id);
     }
 
     @Test
@@ -66,7 +71,6 @@ class HibernateUserRepositoryTest {
 
         String result = hibernateUserRepository.findById(id).get().getPassword();
         assertThat(result).isEqualTo("password2");
-        hibernateUserRepository.delete(id);
     }
 
     @Test
@@ -89,12 +93,10 @@ class HibernateUserRepositoryTest {
         user1.setPassword("password1");
         user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
-        int id = user1.getId();
 
         Collection<User> result = hibernateUserRepository.findAllOrderById();
-        assertThat(result).hasSizeGreaterThanOrEqualTo(1);
+        assertThat(result).hasSize(1);
         assertThat(result).contains(user1);
-        hibernateUserRepository.delete(id);
     }
 
     @Test
@@ -104,7 +106,6 @@ class HibernateUserRepositoryTest {
         user1.setPassword("password1");
         user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
-        int id1 = user1.getId();
 
         User user2 = new User();
         user2.setEmail("lo");
@@ -112,12 +113,9 @@ class HibernateUserRepositoryTest {
         user2.setPhoneNumber("123");
         user2.setEmail("mail1@mail.com");
         hibernateUserRepository.save(user2);
-        int id2 = user2.getId();
 
         Collection<User> result = hibernateUserRepository.findByLikeEmail("ogi");
         assertThat(result).contains(user1).doesNotContain(user2);
-        hibernateUserRepository.delete(id1);
-        hibernateUserRepository.delete(id2);
     }
 
     @Test
@@ -127,10 +125,8 @@ class HibernateUserRepositoryTest {
         user1.setPassword("password1");
         user1.setPhoneNumber("123");
         hibernateUserRepository.save(user1);
-        int id = user1.getId();
 
         Optional<User> optionalUser = hibernateUserRepository.findByEmailAndPassword("login1", "password1");
         assertThat(optionalUser.get()).isEqualTo(user1);
-        hibernateUserRepository.delete(id);
     }
 }

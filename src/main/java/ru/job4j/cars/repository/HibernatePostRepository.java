@@ -1,10 +1,8 @@
 package ru.job4j.cars.repository;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -47,9 +45,16 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     @Override
-    public Collection<Post> findAll() {
+    public Collection<Post> findAllNotSold() {
         return crudRepository.query(
                 "from Post WHERE isSold = false ORDER BY created desc", Post.class
+        );
+    }
+
+    @Override
+    public Collection<Post> findAll() {
+        return crudRepository.query(
+                "from Post", Post.class
         );
     }
 
@@ -79,6 +84,20 @@ public class HibernatePostRepository implements PostRepository {
     public Collection<Post> findPostsByMake(String make) {
         return crudRepository.query("FROM Post p WHERE p.car.carModel.make = :cMake", Post.class,
                 Map.of("cMake", make)
+        );
+    }
+
+    @Override
+    public Collection<Post> findPostsByYearInterval(int from, int until) {
+        return crudRepository.query("FROM Post p WHERE p.car.carYear >= :dFrom AND p.car.carYear <= :dUntil", Post.class,
+                Map.of("dFrom", from, "dUntil", until)
+        );
+    }
+
+    @Override
+    public Collection<Post> findPostsByPriceInterval(long from, long until) {
+        return crudRepository.query("FROM Post p WHERE p.price >= :dFrom AND p.price <= :dUntil", Post.class,
+                Map.of("dFrom", from, "dUntil", until)
         );
     }
 

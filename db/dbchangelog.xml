@@ -18,16 +18,12 @@
     <include file="scripts/010_ddl_create_posts_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
 
-    <include file="scripts/001a_dml_insert_to_users_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002a_dml_insert_to_models_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003a_dml_insert_to_body_types_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004a_dml_insert_to_fuel_types_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005a_dml_insert_to_engine_sizes_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006a_dml_insert_to_transmissions_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007a_dml_insert_to_colours_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/008a_dml_insert_to_cars_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009a_dml_insert_no_image_to_files_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/010a_dml_insert_to_posts_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/011a_dml_insert_to_price_history_table.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

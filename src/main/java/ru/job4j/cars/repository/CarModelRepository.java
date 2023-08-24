@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface CarModelRepository {
     Collection<CarModel> findAll();
     Optional<CarModel> findById(int id);
-    Collection<CarModel> findByCarMake(String make);
 }

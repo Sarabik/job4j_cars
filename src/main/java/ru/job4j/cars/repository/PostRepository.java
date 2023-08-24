@@ -1,7 +1,6 @@
 package ru.job4j.cars.repository;
 
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,6 +12,8 @@ public interface PostRepository {
     void update(Post post);
 
     void delete(int postId);
+
+    Collection<Post> findAllNotSold();
 
     Collection<Post> findAll();
 
@@ -27,6 +28,10 @@ public interface PostRepository {
     Collection<Post> findAllActiveByUserId(int id);
 
     Collection<Post> findAllSoldByUserId(int id);
+
+    Collection<Post> findPostsByYearInterval(int from, int until);
+
+    Collection<Post> findPostsByPriceInterval(long from, long until);
 
     void movePostToSold(int id);
 

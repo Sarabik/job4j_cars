@@ -13,4 +13,6 @@ public interface ImageFileService {
 
     void delete(int id);
 
+    ImageFile getDefault();
+
 }

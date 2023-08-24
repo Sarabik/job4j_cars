@@ -13,7 +13,7 @@
 </head>
 <body class="m-3">
 <div th:replace="blocks/navigation.html :: navigationBlock"></div>
-<form style="max-width: 500px;" th:action="@{/users/register}" method="post" class="py-4">
+<form style="max-width: 500px;" th:action="@{/users/register}" method="post" class="py-4 container">
     <div class="mb-3" th:if="${message}">
         <p class="text-danger" th:text="${message}"></p>
     </div>

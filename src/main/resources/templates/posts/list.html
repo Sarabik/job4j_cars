@@ -13,8 +13,62 @@
 </head>
 <body class="m-3">
     <div th:replace="blocks/navigation.html :: navigationBlock"></div>
-    <div class="container-fluid px-0 py-2">
-        <table>
+    <div class="container-fluid px-0 py-2" style="max-width:1600px">
+        <div>
+            <form th:action="@{/posts/list}">
+                <div class="p-3 d-flex flex-wrap">
+                    <div class="pe-5">
+                        <!--Car make-->
+                        <div style="width:200px">
+                            <label for="carMake">Car make:</label>
+                            <select class="form-control border border-secondary border-opacity-50" id="carMake" name="carMake">
+                                <option></option>
+                                <option th:each="carMake : ${carMakes}" th:value="${carMake}" th:text="${carMake}" th:selected="(${carMake} == ${sCarMake})"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row pe-5">
+                        <!--Min year-->
+                        <div style="width:100px">
+                            <label for="yearFrom">Min year:</label>
+                            <select class="form-control border border-secondary border-opacity-50" id="yearFrom" name="yearFrom">
+                                <option></option>
+                                <option th:each="yearFrom : ${#numbers.sequence(#dates.year(#dates.createNow()), 1950)}"
+                                        th:value="${yearFrom}" th:text="${yearFrom}" th:selected="(${yearFrom} == ${sYearFrom})"></option>
+                            </select>
+                        </div>
+                        <!--Max year-->
+                        <div style="width:100px">
+                            <label for="yearUntil">Max year:</label>
+                            <select class="form-control border border-secondary border-opacity-50" id="yearUntil" name="yearUntil">
+                                <option></option>
+                                <option th:each="yearUntil : ${#numbers.sequence(#dates.year(#dates.createNow()), 1950)}"
+                                        th:value="${yearUntil}" th:text="${yearUntil}" th:selected="(${yearUntil} == ${sYearUntil})"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row pe-5">
+                        <!--Min price-->
+                        <div style="width:150px">
+                            <label for="priceFrom">Min price (EUR):</label>
+                            <input type="text" class="form-control border border-secondary border-opacity-50"
+                                   id="priceFrom" name="priceFrom" th:value="${sPriceFrom}">
+                        </div>
+                        <!--Max price-->
+                        <div style="width:150px">
+                            <label for="priceUntil">Max price (EUR):</label>
+                            <input type="text" class="form-control border border-secondary border-opacity-50"
+                                   id="priceUntil" name="priceUntil" th:value="${sPriceUntil}">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-outline-secondary align-bottom mt-4">Submit</button>
+                        <a class="btn btn-outline-secondary align-bottom mt-4 ms-2" role="button" href="/">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table >
             <thead>
             <tr class="border-bottom border-secondary border-opacity-50">
                 <th class="col-3 p-2 text-center">Photo</th>

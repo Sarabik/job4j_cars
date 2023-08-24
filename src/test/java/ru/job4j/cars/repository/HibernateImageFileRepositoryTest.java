@@ -16,14 +16,13 @@ import static org.assertj.core.api.Assertions.*;
 
 class HibernateImageFileRepositoryTest {
     private static StandardServiceRegistry registry;
-    private static SessionFactory sessionFactory;
     private static ImageFileRepository hibernateImageFileRepository;
 
     @BeforeAll
     public static void initRepository() {
         registry = new StandardServiceRegistryBuilder().configure().build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        hibernateImageFileRepository = new HibernateImageFileRepository(new CrudRepository(sessionFactory));
+        SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        hibernateImageFileRepository = new HibernateImageFileRepository(new CrudRepository(sessionFactory), "noImage");
     }
 
     @AfterAll

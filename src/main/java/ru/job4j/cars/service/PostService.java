@@ -14,7 +14,7 @@ public interface PostService {
 
     void delete(int postId);
 
-    Collection<Post> findAll();
+    Collection<Post> findAllNotSold();
 
     Optional<Post> findById(int postId);
 
@@ -27,6 +27,10 @@ public interface PostService {
     Collection<Post> findAllActiveByUserId(int id);
 
     Collection<Post> findAllSoldByUserId(int id);
+
+    Collection<Post> findPostsByYearInterval(Integer from, Integer until);
+
+    Collection<Post> findPostsByPriceInterval(Long from, Long until);
 
     void movePostToSold(int id);
 

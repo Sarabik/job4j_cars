@@ -20,12 +20,17 @@ public class SimplePostService implements PostService {
     private final PostRepository postRepository;
     private final PriceHistoryRepository priceHistoryRepository;
     private final ImageFileService imageFileService;
+    private final CarService carService;
 
     @Override
     public void save(Post post, ImageFileDto imageFileDto) {
         post.setCreated(LocalDateTime.now());
         post.setPriceHistories(List.of(addNewPriceHistory(post)));
-        post.setImageFile(imageFileService.save(imageFileDto));
+        if (imageFileDto.getName().isEmpty()) {
+            post.setImageFile(imageFileService.getDefault());
+        } else {
+            post.setImageFile(imageFileService.save(imageFileDto));
+        }
         postRepository.save(post);
     }
 
@@ -60,12 +65,13 @@ public class SimplePostService implements PostService {
             post.get().getPriceHistories().forEach(p -> priceHistoryRepository.delete(p.getId()));
         }
         postRepository.delete(postId);
+        carService.delete(post.get().getCar().getId());
         imageFileService.delete(post.get().getImageFile().getId());
     }
 
     @Override
-    public Collection<Post> findAll() {
-        return postRepository.findAll();
+    public Collection<Post> findAllNotSold() {
+        return postRepository.findAllNotSold();
     }
 
     @Override
@@ -85,6 +91,9 @@ public class SimplePostService implements PostService {
 
     @Override
     public Collection<Post> findPostsByMake(String make) {
+        if (make == null || make.isEmpty()) {
+            return postRepository.findAllNotSold();
+        }
         return postRepository.findPostsByMake(make);
     }
 
@@ -96,6 +105,28 @@ public class SimplePostService implements PostService {
     @Override
     public Collection<Post> findAllSoldByUserId(int id) {
         return postRepository.findAllSoldByUserId(id);
+    }
+
+    @Override
+    public Collection<Post> findPostsByYearInterval(Integer from, Integer until) {
+        if (from == null) {
+            from = 1900;
+        }
+        if (until == null) {
+            until = LocalDateTime.now().getYear();
+        }
+        return postRepository.findPostsByYearInterval(from, until);
+    }
+
+    @Override
+    public Collection<Post> findPostsByPriceInterval(Long from, Long until) {
+        if (from == null) {
+            from = 0L;
+        }
+        if (until == null) {
+            until = Long.MAX_VALUE;
+        }
+        return postRepository.findPostsByPriceInterval(from, until);
     }
 
     @Override

@@ -18,7 +18,7 @@
 </div>
 <div class="container-fluid px-0 py-2" th:if="${not #lists.isEmpty(posts)}">
     <h5 class="text-center fw-semibold p-2">My active adverts</h5>
-    <table>
+    <table class="container">
         <thead>
         <tr class="border-bottom border-secondary border-opacity-50">
             <th class="col-3 p-2 text-center">Photo</th>
@@ -79,7 +79,7 @@
 </div>
 <div class="container-fluid px-0 py-2" th:if="${not #lists.isEmpty(sold)}">
     <h5 class="text-center fw-semibold p-2">My sold cars</h5>
-    <table>
+    <table class="container">
         <thead>
         <tr class="border-bottom border-secondary border-opacity-50">
             <th class="col-3 p-2 text-center">Photo</th>
