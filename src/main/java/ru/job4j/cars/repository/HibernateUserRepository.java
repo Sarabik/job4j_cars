@@ -15,18 +15,18 @@ public class HibernateUserRepository implements UserRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public void save(User user) {
-        crudRepository.run(session -> session.persist(user));
+    public boolean save(User user) {
+        return crudRepository.ifSaved(user);
     }
 
     @Override
-    public void update(User user) {
-        crudRepository.run(session -> session.merge(user));
+    public boolean update(User user) {
+        return crudRepository.ifChanged(user);
     }
 
     @Override
-    public void delete(int userId) {
-        crudRepository.run(
+    public boolean delete(int userId) {
+        return crudRepository.ifChanged(
                 "DELETE User WHERE id = :fId",
                 Map.of("fId", userId)
         );

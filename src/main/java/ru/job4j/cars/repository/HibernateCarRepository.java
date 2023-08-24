@@ -14,8 +14,8 @@ public class HibernateCarRepository implements CarRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public void save(Car car) {
-        crudRepository.run(session -> session.persist(car));
+    public boolean save(Car car) {
+        return crudRepository.ifSaved(car);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class HibernateCarRepository implements CarRepository {
     }
 
     @Override
-    public void delete(int id) {
-        crudRepository.run("DELETE Car WHERE id = :cId",
+    public boolean delete(int id) {
+        return crudRepository.ifChanged("DELETE Car WHERE id = :cId",
                 Map.of("cId", id)
         );
     }

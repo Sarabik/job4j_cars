@@ -6,9 +6,9 @@ import java.util.Optional;
 
 public interface ImageFileRepository {
 
-    void save(ImageFile imageFile);
+    boolean save(ImageFile imageFile);
 
-    void delete(int id);
+    boolean delete(int id);
 
     Optional<ImageFile> findById(int id);
 

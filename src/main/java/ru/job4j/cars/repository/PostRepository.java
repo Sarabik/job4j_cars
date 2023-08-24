@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface PostRepository {
 
-    void save(Post post);
+    boolean save(Post post);
 
-    void update(Post post);
+    boolean update(Post post);
 
-    void delete(int postId);
+    boolean delete(int postId);
 
     Collection<Post> findAllNotSold();
 
@@ -33,7 +33,7 @@ public interface PostRepository {
 
     Collection<Post> findPostsByPriceInterval(long from, long until);
 
-    void movePostToSold(int id);
+    boolean movePostToSold(int id);
 
-    void updateDate(int id);
+    boolean updateDate(int id);
 }

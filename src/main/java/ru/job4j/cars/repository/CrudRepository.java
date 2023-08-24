@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,25 +19,34 @@ import java.util.function.Function;
 public class CrudRepository {
     private final SessionFactory sf;
 
-    public void run(Consumer<Session> command) {
-        tx(session -> {
-                    command.accept(session);
-                    return null;
-                }
-        );
+    public <T> boolean ifChanged(T t) {
+        Function<Session, Boolean> command = session -> {
+            session.update(t);
+            return true;
+        };
+        return tx(command);
     }
 
-    public void run(String query, Map<String, Object> args) {
-        Consumer<Session> command = session -> {
-            Query<?> sq = session
-                    .createQuery(query);
-            for (Map.Entry<String, Object> arg : args.entrySet()) {
-                sq.setParameter(arg.getKey(), arg.getValue());
+    public boolean ifChanged(String query, Map<String, Object> args) {
+        Function<Session, Boolean> command = session -> {
+            var q = session.createQuery(query);
+            for (Map.Entry<String, Object> entry : args.entrySet()) {
+                q.setParameter(entry.getKey(), entry.getValue());
             }
-            sq.executeUpdate();
+            return q.executeUpdate() > 0;
         };
-        run(command);
+        return tx(command);
     }
+
+    public <T> boolean ifSaved(T t) {
+        Function<Session, Boolean> command = session -> {
+            session.persist(t);
+            return true;
+        };
+        return tx(command);
+    }
+
+
 
     public <T> Optional<T> optional(String query, Class<T> cl, Map<String, Object> args) {
         Function<Session, Optional<T>> command = session -> {

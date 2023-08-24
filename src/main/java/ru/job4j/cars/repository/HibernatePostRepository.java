@@ -27,18 +27,18 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     @Override
-    public void save(Post post) {
-        crudRepository.run(session -> session.persist(post));
+    public boolean save(Post post) {
+        return crudRepository.ifSaved(post);
     }
 
     @Override
-    public void update(Post post) {
-        crudRepository.run(session -> session.merge(post));
+    public boolean update(Post post) {
+        return crudRepository.ifChanged(post);
     }
 
     @Override
-    public void delete(int postId) {
-        crudRepository.run(
+    public boolean delete(int postId) {
+        return crudRepository.ifChanged(
                 "DELETE Post WHERE id = :pId",
                 Map.of("pId", postId)
         );
@@ -118,14 +118,14 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     @Override
-    public void movePostToSold(int id) {
-        crudRepository.run("UPDATE Post SET isSold = true WHERE id = :pId",
+    public boolean movePostToSold(int id) {
+        return crudRepository.ifChanged("UPDATE Post SET isSold = true WHERE id = :pId",
                 Map.of("pId", id));
     }
 
     @Override
-    public void updateDate(int id) {
-        crudRepository.run("UPDATE Post SET created = :pDate WHERE id = :pId",
+    public boolean updateDate(int id) {
+        return crudRepository.ifChanged("UPDATE Post SET created = :pDate WHERE id = :pId",
                 Map.of("pId", id, "pDate", LocalDateTime.now()));
     }
 }

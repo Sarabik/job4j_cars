@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    void save(User user);
+    boolean save(User user);
 
-    void update(User user);
+    boolean update(User user);
 
-    void delete(int userId);
+    boolean delete(int userId);
 
     Collection<User> findAllOrderById();
 

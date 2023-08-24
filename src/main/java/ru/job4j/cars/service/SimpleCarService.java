@@ -13,8 +13,8 @@ public class SimpleCarService implements CarService {
     private final CarRepository carRepository;
 
     @Override
-    public void save(Car car) {
-        carRepository.save(car);
+    public boolean save(Car car) {
+        return carRepository.save(car);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SimpleCarService implements CarService {
     }
 
     @Override
-    public void delete(int id) {
-        carRepository.delete(id);
+    public boolean delete(int id) {
+        return carRepository.delete(id);
     }
 }

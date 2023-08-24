@@ -77,13 +77,15 @@ public class SimpleImageFileService implements ImageFileService {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
+        boolean ifDeleted = false;
         Optional<ImageFile> opt = imageFileRepository.findById(id);
         if (opt.isPresent() && !noImage.equals(opt.get().getFileName())) {
             File file = new File(opt.get().getPath());
             file.delete();
-            imageFileRepository.delete(id);
+            ifDeleted = imageFileRepository.delete(id);
         }
+        return ifDeleted;
     }
 
     @Override

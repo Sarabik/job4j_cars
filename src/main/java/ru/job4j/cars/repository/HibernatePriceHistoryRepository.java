@@ -12,8 +12,8 @@ public class HibernatePriceHistoryRepository implements PriceHistoryRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public void delete(int id) {
-        crudRepository.run(
+    public boolean delete(int id) {
+        return crudRepository.ifChanged(
                 "DELETE PriceHistory p WHERE p.id = :pId", Map.of("pId", id));
     }
 }

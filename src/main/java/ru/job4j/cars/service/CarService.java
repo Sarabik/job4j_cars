@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface CarService {
 
-    void save(Car car);
+    boolean save(Car car);
 
     Optional<Car> findById(int id);
 
-    void delete(int id);
+    boolean delete(int id);
 
 }

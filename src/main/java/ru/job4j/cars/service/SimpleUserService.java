@@ -15,18 +15,18 @@ public class SimpleUserService implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public boolean save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public void update(User user) {
-        userRepository.update(user);
+    public boolean update(User user) {
+        return userRepository.update(user);
     }
 
     @Override
-    public void delete(int userId) {
-        userRepository.delete(userId);
+    public boolean delete(int userId) {
+        return userRepository.delete(userId);
     }
 
     @Override

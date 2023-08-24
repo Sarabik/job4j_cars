@@ -13,6 +13,7 @@ import ru.job4j.cars.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -68,10 +69,6 @@ public class PostController {
     @GetMapping("/{postId}")
     public String getOnePostPage(@PathVariable int postId, Model model) {
         Optional<Post> optionalPost = postService.findById(postId);
-        if (optionalPost.isEmpty()) {
-            model.addAttribute("message", "Post is not found");
-            return "errors/404";
-        }
         model.addAttribute("post", optionalPost.get());
         return "posts/one";
     }
@@ -93,7 +90,7 @@ public class PostController {
                           @RequestParam String description,
                           @RequestParam Integer price,
                           @RequestParam MultipartFile imageFileDto,
-                          HttpServletRequest request) {
+                          HttpServletRequest request) throws IOException {
         carService.save(car);
         Post post = new Post();
         post.setCar(car);
@@ -102,11 +99,10 @@ public class PostController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         post.setUser(user);
-        try {
-            postService.save(post, new ImageFileDto(imageFileDto.getOriginalFilename(), imageFileDto.getBytes()));
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "errors/404";
+        boolean ifSaved = postService.save(post, new ImageFileDto(imageFileDto.getOriginalFilename(), imageFileDto.getBytes()));
+        if (!ifSaved) {
+            model.addAttribute("message", "Error! Advert is not added");
+            return "posts/create";
         }
         return "redirect:/";
     }

@@ -13,6 +13,9 @@
 </head>
 <body class="m-3">
 <div th:replace="blocks/navigation.html :: navigationBlock"></div>
+<div class="mb-3" th:if="${message}">
+    <p class="text-danger" th:text="${message}"></p>
+</div>
 <div class="container-fluid px-0 py-3">
   <div class="border border-secondary border-opacity-50">
       <h5 class="text-center fw-semibold p-2">The car information</h5>

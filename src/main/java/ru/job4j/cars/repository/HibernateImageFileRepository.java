@@ -21,13 +21,13 @@ public class HibernateImageFileRepository implements ImageFileRepository {
     }
 
     @Override
-    public void save(ImageFile imageFile) {
-        crudRepository.run(session -> session.persist(imageFile));
+    public boolean save(ImageFile imageFile) {
+        return crudRepository.ifSaved(imageFile);
     }
 
     @Override
-    public void delete(int id) {
-        crudRepository.run(
+    public boolean delete(int id) {
+        return crudRepository.ifChanged(
                 "DELETE ImageFile WHERE id = :fId",
                 Map.of("fId", id)
         );

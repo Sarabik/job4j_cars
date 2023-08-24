@@ -23,7 +23,7 @@ public class SimplePostService implements PostService {
     private final CarService carService;
 
     @Override
-    public void save(Post post, ImageFileDto imageFileDto) {
+    public boolean save(Post post, ImageFileDto imageFileDto) {
         post.setCreated(LocalDateTime.now());
         post.setPriceHistories(List.of(addNewPriceHistory(post)));
         if (imageFileDto.getName().isEmpty()) {
@@ -31,7 +31,7 @@ public class SimplePostService implements PostService {
         } else {
             post.setImageFile(imageFileService.save(imageFileDto));
         }
-        postRepository.save(post);
+        return postRepository.save(post);
     }
 
     private PriceHistory addNewPriceHistory(Post post) {
@@ -42,7 +42,8 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public void update(Post post) {
+    public boolean update(Post post) {
+        boolean ifUpdated = false;
         post.setCreated(LocalDateTime.now());
         Optional<Post> opt = postRepository.findById(post.getId());
         if (opt.isPresent()) {
@@ -54,19 +55,27 @@ public class SimplePostService implements PostService {
             post.setUser(postOld.getUser());
             post.setCar(postOld.getCar());
             post.setImageFile(postOld.getImageFile());
-            postRepository.update(post);
+            ifUpdated = postRepository.update(post);
         }
+        return ifUpdated;
     }
 
     @Override
-    public void delete(int postId) {
-        Optional<Post> post = findById(postId);
-        if (post.isPresent() && !post.get().getPriceHistories().isEmpty()) {
-            post.get().getPriceHistories().forEach(p -> priceHistoryRepository.delete(p.getId()));
+    public boolean delete(int postId) {
+        Optional<Post> optPost = findById(postId);
+        if (optPost.isEmpty()) {
+            return false;
         }
-        postRepository.delete(postId);
-        carService.delete(post.get().getCar().getId());
-        imageFileService.delete(post.get().getImageFile().getId());
+        Post post = optPost.get();
+        if (!post.getPriceHistories().isEmpty()) {
+            post.getPriceHistories().forEach(p -> priceHistoryRepository.delete(p.getId()));
+        }
+        boolean ifDeleted = postRepository.delete(postId);
+        if (ifDeleted) {
+            carService.delete(post.getCar().getId());
+            imageFileService.delete(post.getImageFile().getId());
+        }
+        return ifDeleted;
     }
 
     @Override
@@ -130,12 +139,12 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public void movePostToSold(int id) {
-        postRepository.movePostToSold(id);
+    public boolean movePostToSold(int id) {
+       return postRepository.movePostToSold(id);
     }
 
     @Override
-    public void updateDate(int id) {
-        postRepository.updateDate(id);
+    public boolean updateDate(int id) {
+       return postRepository.updateDate(id);
     }
 }

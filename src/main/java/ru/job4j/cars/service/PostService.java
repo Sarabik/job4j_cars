@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface PostService {
 
-    void save(Post post, ImageFileDto imageFileDto);
+    boolean save(Post post, ImageFileDto imageFileDto);
 
-    void update(Post post);
+    boolean update(Post post);
 
-    void delete(int postId);
+    boolean delete(int postId);
 
     Collection<Post> findAllNotSold();
 
@@ -32,8 +32,8 @@ public interface PostService {
 
     Collection<Post> findPostsByPriceInterval(Long from, Long until);
 
-    void movePostToSold(int id);
+    boolean movePostToSold(int id);
 
-    void updateDate(int id);
+    boolean updateDate(int id);
 
 }

@@ -28,6 +28,11 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute User user) {
+        Optional<User> u = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        if (u.isPresent()) {
+            model.addAttribute("message", "User with this email already exists");
+            return "users/register";
+        }
         userService.save(user);
         return "redirect:/users/login";
     }
@@ -41,7 +46,7 @@ public class UserController {
     public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request) {
         Optional<User> userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
-            model.addAttribute("error", "Incorrect email or password");
+            model.addAttribute("message", "Incorrect email or password");
             return "users/login";
         }
         HttpSession session = request.getSession();

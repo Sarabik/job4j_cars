@@ -171,9 +171,11 @@ class HibernatePostRepositoryTest {
         postRepository.save(post1);
         int postId1 = post1.getId();
 
-        postRepository.delete(postId1);
+        boolean idDeleted = postRepository.delete(postId1);
 
+        assertThat(idDeleted).isTrue();
         assertThat(postRepository.findById(postId1)).isEmpty();
+        assertThat(postRepository.delete(postId1)).isFalse();
     }
 
     @Test

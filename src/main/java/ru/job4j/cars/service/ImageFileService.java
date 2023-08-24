@@ -11,7 +11,7 @@ public interface ImageFileService {
 
     Optional<ImageFileDto> findById(int id);
 
-    void delete(int id);
+    boolean delete(int id);
 
     ImageFile getDefault();
 

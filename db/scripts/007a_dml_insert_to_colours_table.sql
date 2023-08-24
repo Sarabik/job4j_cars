@@ -10,4 +10,5 @@ INSERT INTO car_colours (name) VALUES
 ('blue'),
 ('orange'),
 ('white'),
-('red');
+('red'),
+('grey');
