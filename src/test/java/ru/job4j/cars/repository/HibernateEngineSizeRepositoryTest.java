@@ -41,4 +41,5 @@ class HibernateEngineSizeRepositoryTest {
         List<Float> expected = Stream.iterate(1.2F, f  -> (float) Math.round((f + 0.1F) * 10) / 10).limit(19).toList();
         assertThat(result.stream().map(EngineSize::getSize).distinct()).containsExactlyElementsOf(expected);
     }
+
 }

@@ -40,4 +40,5 @@ class HibernateCarColourRepositoryTest {
                 "green", "purple", "blue", "orange", "white", "red", "grey"
         );
     }
+
 }

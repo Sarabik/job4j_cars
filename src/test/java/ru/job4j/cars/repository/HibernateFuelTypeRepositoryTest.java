@@ -40,5 +40,4 @@ class HibernateFuelTypeRepositoryTest {
                 "Diesel", "Petrol", "Hybrid", "Electric"
         );
     }
-
 }

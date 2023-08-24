@@ -40,5 +40,4 @@ class HibernateCarModelRepositoryTest {
                 "Audi", "BMW", "Mercedes", "Volkswagen", "Other"
         );
     }
-
 }

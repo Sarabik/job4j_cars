@@ -423,4 +423,5 @@ class HibernatePostRepositoryTest {
 
         assertThat(postRepository.findById(postId1).get().getCreated()).isAfter(date);
     }
+
 }

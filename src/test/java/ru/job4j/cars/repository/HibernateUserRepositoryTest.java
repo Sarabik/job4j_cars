@@ -129,4 +129,5 @@ class HibernateUserRepositoryTest {
         Optional<User> optionalUser = hibernateUserRepository.findByEmailAndPassword("login1", "password1");
         assertThat(optionalUser.get()).isEqualTo(user1);
     }
+
 }

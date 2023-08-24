@@ -39,4 +39,5 @@ class HibernateBodyTypeRepositoryTest {
                 "Hatchback", "Sports Car", "SUV", "Sedan", "Convertible", "Coupe", "Station Wagon", "Mini Van", "Pickup"
         );
     }
+
 }

@@ -55,4 +55,5 @@ class HibernateImageFileRepositoryTest {
         Optional<ImageFile> optionalImageFile = hibernateImageFileRepository.findById(id);
         assertThat(optionalImageFile).isEmpty();
     }
+
 }

@@ -64,4 +64,5 @@ class HibernateCarRepositoryTest {
         assertThat(optionalCar.get()).isEqualTo(car);
         hibernateCarRepository.delete(id);
     }
+
 }
