@@ -22,6 +22,7 @@ class HibernatePostRepositoryTest {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
     private static PostRepository postRepository;
+    private static PostsRepository postsRepository;
     private static ImageFileRepository imageFileRepository;
     private static CarRepository carRepository;
     private static PriceHistoryRepository priceHistoryRepository;
@@ -35,7 +36,8 @@ class HibernatePostRepositoryTest {
     public static void initRepository() {
         registry = new StandardServiceRegistryBuilder().configure().build();
         sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        postRepository = new HibernatePostRepository(new CrudRepository(sessionFactory), "directory", "noImage");
+        postRepository = new HibernatePostRepository(new CrudRepository(sessionFactory));
+        postsRepository = new HibernatePostsRepository(new CrudRepository(sessionFactory), "directory", "noImage");
         imageFileRepository = new HibernateImageFileRepository(new CrudRepository(sessionFactory), "directory");
         carRepository = new HibernateCarRepository(new CrudRepository(sessionFactory));
         priceHistoryRepository = new HibernatePriceHistoryRepository(new CrudRepository(sessionFactory));
@@ -91,7 +93,7 @@ class HibernatePostRepositoryTest {
         CrudRepository crudRepository = new CrudRepository(sessionFactory);
         crudRepository.query("FROM PriceHistory", PriceHistory.class)
                 .forEach(p -> priceHistoryRepository.delete(p.getId()));
-        postRepository.findAll()
+        postsRepository.findAll()
                 .forEach(p -> postRepository.delete(p.getId()));
         crudRepository.query("FROM ImageFile", ImageFile.class)
                 .forEach(p -> imageFileRepository.delete(p.getId()));
@@ -198,7 +200,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user2);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findAllNotSold();
+        Collection<Post> result = postsRepository.findAllNotSold();
         assertThat(result).hasSize(2);
         assertThat(result).contains(post1, post2);
     }
@@ -224,7 +226,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user2);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findPostsForLast24Hours();
+        Collection<Post> result = postsRepository.findPostsForLast24Hours();
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -253,7 +255,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user2);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findPostsWithPhoto();
+        Collection<Post> result = postsRepository.findPostsWithPhoto();
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -277,7 +279,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findPostsByMake("Audi");
+        Collection<Post> result = postsRepository.findPostsByMake("Audi");
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -301,7 +303,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findPostsByYearInterval(1980, 2000);
+        Collection<Post> result = postsRepository.findPostsByYearInterval(1980, 2000);
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -325,7 +327,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findPostsByPriceInterval(17000, 19000);
+        Collection<Post> result = postsRepository.findPostsByPriceInterval(17000, 19000);
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -350,7 +352,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findAllActiveByUserId(userId1);
+        Collection<Post> result = postsRepository.findAllActiveByUserId(userId1);
         assertThat(result).contains(post1).doesNotContain(post2);
     }
 
@@ -375,7 +377,7 @@ class HibernatePostRepositoryTest {
         post2.setUser(user);
         postRepository.save(post2);
 
-        Collection<Post> result = postRepository.findAllSoldByUserId(userId1);
+        Collection<Post> result = postsRepository.findAllSoldByUserId(userId1);
         assertThat(result).contains(post2).doesNotContain(post1);
     }
 

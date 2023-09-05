@@ -14,12 +14,11 @@ import ru.job4j.cars.service.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
 
     private final PostService postService;
@@ -38,39 +37,11 @@ public class PostController {
 
     private final CarService carService;
 
-    @GetMapping("/list")
-    public String getPostList(Model model,
-                              @RequestParam(name = "priceFrom", required = false) Long priceFrom,
-                              @RequestParam(name = "priceUntil", required = false) Long priceUntil,
-                              @RequestParam(name = "yearFrom", required = false) Integer yearFrom,
-                              @RequestParam(name = "yearUntil", required = false) Integer yearUntil,
-                              @RequestParam(name = "carMake", required = false) String carMake) {
-        model.addAttribute("carMakes", carModelService.findAllCarMakeCollection());
-        model.addAttribute("sPriceFrom", priceFrom);
-        model.addAttribute("sPriceUntil", priceUntil);
-        model.addAttribute("sYearFrom", yearFrom);
-        model.addAttribute("sYearUntil", yearUntil);
-        model.addAttribute("sCarMake", carMake);
-
-        Collection<Post> collection = postService.findAllNotSold();
-        if (carMake != null && !carMake.isEmpty()) {
-            collection.retainAll(postService.findPostsByMake(carMake));
-        }
-        if (priceFrom != null || priceUntil != null) {
-            collection.retainAll(postService.findPostsByPriceInterval(priceFrom, priceUntil));
-        }
-        if (yearFrom != null || yearUntil != null) {
-            collection.retainAll(postService.findPostsByYearInterval(yearFrom, yearUntil));
-        }
-        model.addAttribute("posts", collection);
-        return "posts/list";
-    }
-
     @GetMapping("/{postId}")
     public String getOnePostPage(@PathVariable int postId, Model model) {
         Optional<Post> optionalPost = postService.findById(postId);
         model.addAttribute("post", optionalPost.get());
-        return "posts/one";
+        return "post/one";
     }
 
     @GetMapping("/create")
@@ -81,7 +52,7 @@ public class PostController {
         model.addAttribute("allEngineSizes", engineSizeService.findAll());
         model.addAttribute("allTransmissions", transmissionService.findAll());
         model.addAttribute("allCarColours", carColourService.findAll());
-        return "posts/create";
+        return "post/create";
     }
 
     @PostMapping("/create")
@@ -102,27 +73,16 @@ public class PostController {
         boolean ifSaved = postService.save(post, new ImageFileDto(imageFileDto.getOriginalFilename(), imageFileDto.getBytes()));
         if (!ifSaved) {
             model.addAttribute("message", "Error! Advert is not added");
-            return "posts/create";
+            return "post/create";
         }
         return "redirect:/";
-    }
-
-    @GetMapping("/mylist")
-    public String getMyPostList(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        Collection<Post> posts = postService.findAllActiveByUserId(user.getId());
-        model.addAttribute("posts", posts);
-        Collection<Post> sold = postService.findAllSoldByUserId(user.getId());
-        model.addAttribute("sold", sold);
-        return "posts/mylist";
     }
 
     @GetMapping("/change/{postId}")
     public String getEditPostPage(@PathVariable int postId, Model model) {
         Optional<Post> optionalPost = postService.findById(postId);
         model.addAttribute("post", optionalPost.get());
-        return "posts/change";
+        return "post/change";
     }
 
     @PostMapping("/change/{postId}")
@@ -148,4 +108,5 @@ public class PostController {
         postService.updateDate(postId);
         return "redirect:/posts/mylist";
     }
+
 }

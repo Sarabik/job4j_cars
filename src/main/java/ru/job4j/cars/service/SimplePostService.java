@@ -9,7 +9,6 @@ import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.repository.PriceHistoryRepository;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,63 +78,8 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public Collection<Post> findAllNotSold() {
-        return postRepository.findAllNotSold();
-    }
-
-    @Override
     public Optional<Post> findById(int postId) {
         return postRepository.findById(postId);
-    }
-
-    @Override
-    public Collection<Post> findPostsForLast24Hours() {
-        return postRepository.findPostsForLast24Hours();
-    }
-
-    @Override
-    public Collection<Post> findPostsWithPhoto() {
-        return postRepository.findPostsWithPhoto();
-    }
-
-    @Override
-    public Collection<Post> findPostsByMake(String make) {
-        if (make == null || make.isEmpty()) {
-            return postRepository.findAllNotSold();
-        }
-        return postRepository.findPostsByMake(make);
-    }
-
-    @Override
-    public Collection<Post> findAllActiveByUserId(int id) {
-        return postRepository.findAllActiveByUserId(id);
-    }
-
-    @Override
-    public Collection<Post> findAllSoldByUserId(int id) {
-        return postRepository.findAllSoldByUserId(id);
-    }
-
-    @Override
-    public Collection<Post> findPostsByYearInterval(Integer from, Integer until) {
-        if (from == null) {
-            from = 1900;
-        }
-        if (until == null) {
-            until = LocalDateTime.now().getYear();
-        }
-        return postRepository.findPostsByYearInterval(from, until);
-    }
-
-    @Override
-    public Collection<Post> findPostsByPriceInterval(Long from, Long until) {
-        if (from == null) {
-            from = 0L;
-        }
-        if (until == null) {
-            until = Long.MAX_VALUE;
-        }
-        return postRepository.findPostsByPriceInterval(from, until);
     }
 
     @Override

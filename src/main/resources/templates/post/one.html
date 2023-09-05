@@ -43,13 +43,13 @@
         </tr>
       </table>
     <div th:if="${post.user.email == user.email}" class="d-flex justify-content-end">
-      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/change/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary me-2" th:href="@{/post/change/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Edit advert</a>
-      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/updateDate/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary me-2" th:href="@{/post/updateDate/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Update advert</a>
-      <a class="btn btn-outline-secondary me-2" th:href="@{/posts/sold/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary me-2" th:href="@{/post/sold/{postId}(postId=${post.id})}"
          role="button" th:if="${post.isSold == false}">Car is sold</a>
-      <a class="btn btn-outline-secondary" th:href="@{/posts/delete/{postId}(postId=${post.id})}"
+      <a class="btn btn-outline-secondary" th:href="@{/post/delete/{postId}(postId=${post.id})}"
          role="button">Delete advert</a>
     </div>
     </div>
